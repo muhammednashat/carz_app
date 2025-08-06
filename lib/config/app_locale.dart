@@ -57,9 +57,20 @@ class AppLocale {
   static const String trendingBrands = 'trending_brands';
   static const String popularCars = 'popular_cars';
   static const String viewAll = 'view_all';
+  static const String welcome = 'welcome';
+  static const String google = 'Google';
+  static const String facebook = 'Facebook';
+  static const String loginingText = 'loginingText';
+  static const String useSocialMedia = '';
+  static const String to = 'to';
 
   static const EN = {
-   
+    facebook: 'Facebook',
+    google: 'Google',
+    to: 'to',
+    useSocialMedia: 'Or continue with social account',
+    loginingText: 'Log in to your account using email or social networks',
+    welcome: 'Welcome Back',
     priceRange: 'Price Range',
     types: 'Types',
     economy: 'Economy',
@@ -109,7 +120,7 @@ class AppLocale {
     forgotPassword: 'Forgot Password?',
     orContinueWith: 'Or continue with social account',
     noAccountSignup: 'Didn’t have an account? Signup',
-    haveAccountLogin: 'Already have an account? Login',
+    haveAccountLogin: 'Already have an account? ',
     chooseInterest: 'Which brand of car you prefer?',
     finish: 'Finish',
     skip: 'Skip',
@@ -119,7 +130,15 @@ class AppLocale {
     popularCars: 'Popular Cars',
     viewAll: 'View All',
   };
+
   static const AR = {
+    facebook: 'فيسبوك',
+    google: 'جوجل',
+    to: 'إلى',
+    welcome: 'مرحباً بعودتك',
+    useSocialMedia: 'أو تابع باستخدام حسابك الاجتماعي',
+    loginingText:
+        'سجّل الدخول إلى حسابك باستخدام البريد الإلكتروني أو الشبكات الاجتماعية',
     priceRange: 'نطاق السعر',
     types: 'الأنواع',
     economy: 'اقتصادي',
@@ -169,7 +188,7 @@ class AppLocale {
     forgotPassword: 'هل نسيت كلمة المرور؟',
     orContinueWith: 'أو تابع باستخدام حساب اجتماعي',
     noAccountSignup: 'ليس لديك حساب؟ سجل الآن',
-    haveAccountLogin: 'هل لديك حساب؟ تسجيل الدخول',
+    haveAccountLogin: 'هل لديك حساب؟',
     chooseInterest: 'ما هي ماركة السيارة التي تفضلها؟',
     finish: 'إنهاء',
     skip: 'تخطي',

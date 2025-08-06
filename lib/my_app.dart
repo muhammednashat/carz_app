@@ -26,7 +26,7 @@ class _MyAppState extends State<MyApp> {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.system,
-      home: const Test(),
+      home:  Test(),
     );
   }
 

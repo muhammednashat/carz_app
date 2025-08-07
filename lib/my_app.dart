@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:carz_app/config/app_locale.dart';
+import 'package:carz_app/routing/router_config.dart';
 import 'package:carz_app/ui/core/theme/app_theme.dart';
 import 'package:carz_app/ui/test.dart';
 import 'package:flutter/material.dart';
@@ -19,14 +20,14 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     final localization = FlutterLocalization.instance;
 
-    return MaterialApp(
+    return MaterialApp.router(
+      routerConfig: router,
       supportedLocales: localization.supportedLocales,
       localizationsDelegates: localization.localizationsDelegates,
       locale: localization.currentLocale,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.system,
-      home:  Test(),
     );
   }
 

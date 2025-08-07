@@ -1,13 +1,21 @@
 import 'package:carz_app/config/app_locale.dart';
+import 'package:carz_app/config/dependeces.dart';
 import 'package:carz_app/ui/auth/social_account_button.dart';
 import 'package:carz_app/ui/core/theme/app_theme.dart';
 import 'package:carz_app/ui/core/ui/custom_elevated_button.dart';
 import 'package:carz_app/utils/util_funcs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SignUpScreen extends StatelessWidget {
-   SignUpScreen({super.key});
+class SignUpScreen extends ConsumerStatefulWidget {
+  SignUpScreen({super.key});
+
+  @override
+  ConsumerState<SignUpScreen> createState() => _SignUpScreenState();
+}
+
+class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   final List<TextEditingController> controllers = List.generate(
     4,
     (index) => TextEditingController(),
@@ -81,19 +89,11 @@ class SignUpScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 8),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        AppLocale.forgotPassword.getString(context),
-                        style: Theme.of(context).textTheme.titleMedium
-                            ?.copyWith(color: AppTheme.accent),
-                      ),
-                    ],
-                  ),
                   SizedBox(height: 24.0),
                   CustomElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      ref.watch(authRepoProvider).creatNewAccount();
+                    },
                     text: AppLocale.signup.getString(context),
                   ),
                   SizedBox(height: 8),

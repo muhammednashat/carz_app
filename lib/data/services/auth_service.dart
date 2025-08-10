@@ -1,35 +1,30 @@
 import 'package:graphql/client.dart';
 
 class AuthService {
-
-final QueryOptions options = QueryOptions(
-  document: gql(r'''
-                    query{
-     users{
-        id
-        name
-    }
-}
-                     '''),
-  variables: <String, dynamic>{
-    'nRepositories': 50,
-  },
-);
-
-
-
-
-
   final gl = GraphQLClient(
-    link: HttpLink('http://127.0.0.1:8000/carz'),
+    link: HttpLink('http://192.168.1.5:8000/carz'),
     cache: GraphQLCache(),
   );
 
-  creatNewAccount() async {
-    final result = await gl.query(  options );
-    print("object");
-    print(result.data?['users'].toString());
+ Future<QueryResult> creatNewAccount(String name, String email) async {
+    final newUserMutation = r'''
+       mutation createUsere($name:String, $email:String){ 
+           createUser(name:$name, email:$email){ 
+           user{
+              id
+              name
+              email
+           }
+        }
+        }
+      ''';
+    final mutationOptions = MutationOptions(
+      document: gql(newUserMutation),
+      variables: <String, dynamic>{'name': name, 'email': email},
+    );
 
-    return "service.creatNewAccount()";
+    return await gl.mutate(mutationOptions);
+
+  
   }
 }

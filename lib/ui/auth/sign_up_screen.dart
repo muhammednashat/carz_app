@@ -1,5 +1,6 @@
 import 'package:carz_app/config/app_locale.dart';
 import 'package:carz_app/config/dependeces.dart';
+import 'package:carz_app/data/models/user_model.dart';
 import 'package:carz_app/ui/auth/social_account_button.dart';
 import 'package:carz_app/ui/core/theme/app_theme.dart';
 import 'package:carz_app/ui/core/ui/custom_elevated_button.dart';
@@ -62,6 +63,12 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                   Text(AppLocale.loginingText.getString(context)),
                   SizedBox(height: 16),
                   TextFormField(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'This field is required';
+                      }
+                      return null;
+                    },
                     controller: controllers[0],
                     decoration: InputDecoration(
                       hintText: AppLocale.name.getString(context),
@@ -69,6 +76,12 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                   ),
                   SizedBox(height: 16),
                   TextFormField(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'This field is required';
+                      }
+                      return null;
+                    },
                     controller: controllers[1],
                     decoration: InputDecoration(
                       hintText: AppLocale.emailAddress.getString(context),
@@ -76,6 +89,12 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                   ),
                   SizedBox(height: 16),
                   TextFormField(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'This field is required';
+                      }
+                      return null;
+                    },
                     controller: controllers[2],
                     decoration: InputDecoration(
                       hintText: AppLocale.passport.getString(context),
@@ -83,6 +102,12 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                   ),
                   SizedBox(height: 16),
                   TextFormField(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'This field is required';
+                      }
+                      return null;
+                    },
                     controller: controllers[3],
                     decoration: InputDecoration(
                       hintText: AppLocale.confirmPassword.getString(context),
@@ -91,9 +116,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                   SizedBox(height: 8),
                   SizedBox(height: 24.0),
                   CustomElevatedButton(
-                    onPressed: () {
-                      ref.watch(authRepoProvider).creatNewAccount();
-                    },
+                    onPressed: onPressed,
                     text: AppLocale.signup.getString(context),
                   ),
                   SizedBox(height: 8),
@@ -136,5 +159,19 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
         ),
       ),
     );
+  }
+
+  onPressed() {
+    if (_formKey.currentState!.validate()) {
+      signUp();
+    }
+  }
+
+  signUp() async {
+    final name = controllers[0].text ;
+    final email = controllers[1].text;
+    final repo = ref.watch(authRepoProvider);
+    final userModel =await repo.creatNewAccount(name, email);
+    print(userModel.toString());
   }
 }

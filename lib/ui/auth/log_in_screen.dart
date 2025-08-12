@@ -66,11 +66,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                   SizedBox(height: 16),
                   TextFormField(
-                    validator: (value){
-                    if(value == null || value.isEmpty){
-                      return "This Feild is required";
-                    }
-                    return null;
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "This Feild is required";
+                      }
+                      return null;
                     },
                     controller: controllers[0],
                     decoration: InputDecoration(
@@ -79,11 +79,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   ),
                   SizedBox(height: 16),
                   TextFormField(
-                     validator: (value){
-                    if(value == null || value.isEmpty){
-                      return "This Feild is required";
-                    }
-                    return null;
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "This Feild is required";
+                      }
+                      return null;
                     },
                     controller: controllers[1],
                     decoration: InputDecoration(
@@ -105,7 +105,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   SizedBox(height: 24.0),
                   CustomElevatedButton(
                     onPressed: () {
-                      if(_formKey.currentState!.validate()){
+                      if (_formKey.currentState!.validate()) {
+                        _onPressed();
+                      } else {
                         _onPressed();
                       }
                     },
@@ -137,11 +139,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       text: AppLocale.noAccountSignup.getString(context),
                       children: [
                         TextSpan(
-                          recognizer: TapGestureRecognizer()
-                            ..onTap =(){
-                              context.push('${Routes.loginScreen}/${Routes.signUpScreen}');
-                            }
-                          ,
+                          recognizer:
+                              TapGestureRecognizer()
+                                ..onTap = () {
+                                  context.push(
+                                    '${Routes.loginScreen}/${Routes.signUpScreen}',
+                                  );
+                                },
                           text: AppLocale.signup.getString(context),
                           style: Theme.of(context).textTheme.titleMedium
                               ?.copyWith(color: AppTheme.accent),
@@ -158,10 +162,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     );
   }
 
-  _onPressed ()async{
-    final repo =  ref.watch(authRepoProvider);
-    final email = controllers[0].text;
+  _onPressed() async {
+    final repo = ref.watch(authRepoProvider);
+    final email = 'es';
+    // final email = controllers[0].text;
     final user = await repo.signIn(email);
+    final appBox = await ref.watch(appBoxProvider.future);
+    final userBox = await ref.watch(userBoxProvider.future);
+    appBox.put('isLogged', true);
+    userBox.put('user', user);
     print(user.toString());
+    print(appBox.get('isLogged'));
   }
 }

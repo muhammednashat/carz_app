@@ -1,4 +1,5 @@
 import 'package:carz_app/config/app_locale.dart';
+import 'package:carz_app/config/dependeces.dart';
 import 'package:carz_app/routing/routes.dart';
 import 'package:carz_app/ui/auth/social_account_button.dart';
 import 'package:carz_app/ui/core/theme/app_theme.dart';
@@ -7,10 +8,17 @@ import 'package:carz_app/utils/util_funcs.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   LoginScreen({super.key});
+
+  @override
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends ConsumerState<LoginScreen> {
   final List<TextEditingController> controllers = List.generate(
     2,
     (index) => TextEditingController(),
@@ -58,6 +66,12 @@ class LoginScreen extends StatelessWidget {
 
                   SizedBox(height: 16),
                   TextFormField(
+                    validator: (value){
+                    if(value == null || value.isEmpty){
+                      return "This Feild is required";
+                    }
+                    return null;
+                    },
                     controller: controllers[0],
                     decoration: InputDecoration(
                       hintText: AppLocale.emailAddress.getString(context),
@@ -65,6 +79,12 @@ class LoginScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 16),
                   TextFormField(
+                     validator: (value){
+                    if(value == null || value.isEmpty){
+                      return "This Feild is required";
+                    }
+                    return null;
+                    },
                     controller: controllers[1],
                     decoration: InputDecoration(
                       hintText: AppLocale.password.getString(context),
@@ -84,7 +104,11 @@ class LoginScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 24.0),
                   CustomElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      if(_formKey.currentState!.validate()){
+                        _onPressed();
+                      }
+                    },
                     text: AppLocale.login.getString(context),
                   ),
                   SizedBox(height: 8),
@@ -132,5 +156,12 @@ class LoginScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  _onPressed ()async{
+    final repo =  ref.watch(authRepoProvider);
+    final email = controllers[0].text;
+    final user = await repo.signIn(email);
+    print(user.toString());
   }
 }

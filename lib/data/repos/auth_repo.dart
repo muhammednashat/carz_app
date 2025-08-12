@@ -11,4 +11,11 @@ class AuthRepo {
     final json = result.data?["createUser"]["user"] as Map<String, dynamic>;
     return UserModel.fromJson(json);
   }
+
+  Future<UserModel> signIn(String email) async {
+    final result = await service.signIn(email);
+    final json = result.data?["signIn"];
+    final user = UserModel.fromJson(json);
+    return user;
+  }
 }

@@ -27,4 +27,27 @@ class AuthService {
 
   
   }
+
+
+Future<QueryResult> signIn(String email) async {
+final query = r'''
+            query signIn($email:String){
+               signIn(email:$email){
+                 id
+                 email
+                 name
+               }
+            }
+
+''';
+
+final queryOptions = QueryOptions(document: gql(query),
+variables: <String , dynamic>{"email": email, }
+);
+
+
+return await gl.query(queryOptions);
+
+}
+
 }

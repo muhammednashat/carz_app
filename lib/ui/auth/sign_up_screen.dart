@@ -4,6 +4,7 @@ import 'package:carz_app/data/models/user_model.dart';
 import 'package:carz_app/ui/auth/social_account_button.dart';
 import 'package:carz_app/ui/core/theme/app_theme.dart';
 import 'package:carz_app/ui/core/ui/custom_elevated_button.dart';
+import 'package:carz_app/utils/constants.dart';
 import 'package:carz_app/utils/util_funcs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
@@ -116,7 +117,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                   SizedBox(height: 8),
                   SizedBox(height: 24.0),
                   CustomElevatedButton(
-                    onPressed: onPressed,
+                    onPressed: _inputValidation,
                     text: AppLocale.signup.getString(context),
                   ),
                   SizedBox(height: 8),
@@ -161,17 +162,21 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     );
   }
 
-  onPressed() {
+  _inputValidation() {
     if (_formKey.currentState!.validate()) {
-      signUp();
+      _signUp();
     }
   }
 
-  signUp() async {
-    final name = controllers[0].text ;
+  _signUp() async {
+    final name = controllers[0].text;
     final email = controllers[1].text;
     final repo = ref.watch(authRepoProvider);
-    final userModel =await repo.creatNewAccount(name, email);
+    final appBox = await ref.watch(appBoxProvider.future);
+    final userBox = await ref.watch(userBoxProvider.future);
+    final userModel = await repo.creatNewAccount(name, email);
+    await userBox.put(Constants.user, userModel);
+    await appBox.put(Constants.isLogged, true);
     print(userModel.toString());
   }
 }

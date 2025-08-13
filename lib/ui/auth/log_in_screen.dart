@@ -4,6 +4,7 @@ import 'package:carz_app/routing/routes.dart';
 import 'package:carz_app/ui/auth/social_account_button.dart';
 import 'package:carz_app/ui/core/theme/app_theme.dart';
 import 'package:carz_app/ui/core/ui/custom_elevated_button.dart';
+import 'package:carz_app/utils/constants.dart';
 import 'package:carz_app/utils/util_funcs.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -104,13 +105,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   ),
                   SizedBox(height: 24.0),
                   CustomElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        _onPressed();
-                      } else {
-                        _onPressed();
-                      }
-                    },
+                    onPressed: _inputValidation,
                     text: AppLocale.login.getString(context),
                   ),
                   SizedBox(height: 8),
@@ -162,15 +157,20 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     );
   }
 
-  _onPressed() async {
+  _inputValidation() {
+    if (_formKey.currentState!.validate()) {
+      _signIn();
+    }
+  }
+
+  _signIn() async {
     final repo = ref.watch(authRepoProvider);
-    final email = 'es';
-    // final email = controllers[0].text;
+    final email = controllers[0].text;
     final user = await repo.signIn(email);
     final appBox = await ref.watch(appBoxProvider.future);
     final userBox = await ref.watch(userBoxProvider.future);
-    appBox.put('isLogged', true);
-    userBox.put('user', user);
+    appBox.put(Constants.isLogged, true);
+    userBox.put(Constants.user, user);
     print(user.toString());
     print(appBox.get('isLogged'));
   }

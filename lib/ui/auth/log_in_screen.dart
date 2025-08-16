@@ -169,9 +169,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final user = await repo.signIn(email);
     final appBox = await ref.watch(appBoxProvider.future);
     final userBox = await ref.watch(userBoxProvider.future);
-    appBox.put(Constants.isLogged, true);
-    userBox.put(Constants.user, user);
+    await appBox.put(Constants.isLogged, true);
+    await userBox.put(Constants.user, user);
     print(user.toString());
     print(appBox.get('isLogged'));
+    context.go(Routes.mainScreen);
   }
 }

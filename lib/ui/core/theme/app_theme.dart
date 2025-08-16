@@ -13,10 +13,11 @@ class AppTheme {
     scaffoldBackgroundColor: darkBg,
     primaryColor: accent,
     colorScheme: ColorScheme.dark(
-      surface: darkBg,
+      surface: Color(0xFF1f2215),
       primary: accent,
       secondary: accent,
       onPrimary: textDark,
+
     ),
     textTheme: TextTheme(
       headlineLarge: TextStyle(

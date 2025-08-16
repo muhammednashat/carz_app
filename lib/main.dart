@@ -9,9 +9,8 @@ Future<void> main() async {
    final FlutterLocalization localization = FlutterLocalization.instance;
   await localization.ensureInitialized();
   runApp( 
-    
     ProviderScope(
-  child:   MyApp()
+    child:   MyApp()
  ) 
     
     );

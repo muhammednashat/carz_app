@@ -1,25 +1,30 @@
+import 'package:carz_app/config/dependeces.dart';
 import 'package:carz_app/routing/routes.dart';
 import 'package:carz_app/ui/core/theme/app_theme.dart';
+import 'package:carz_app/utils/constants.dart';
 import 'package:carz_app/utils/util_funcs.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class SplashScreen extends StatefulWidget {
+class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  ConsumerState<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   void initState() {
-      navigate(context);
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      navigate();
+    });
   }
+
   @override
   Widget build(BuildContext context) {
- 
     return Scaffold(
       body: Center(
         child: Column(
@@ -54,12 +59,15 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
-  void navigate(BuildContext context){
-    Future.delayed(
-      Duration(seconds: 3),
-      ()=>{
-        context.go(Routes.loginScreen)
-      }
-    );
+  navigate() async {
+    final appBox = await ref.read(appBoxProvider.future);
+    await Future.delayed(Durations.long4);
+    // context.go(Routes.loginScreen);
+
+    if (appBox.get(Constants.isLogged, defaultValue: false)) {
+      context.go(Routes.mainScreen);
+    } else {
+      context.go(Routes.loginScreen);
+    }
   }
 }

@@ -1,6 +1,7 @@
 import 'package:carz_app/config/app_locale.dart';
 import 'package:carz_app/config/dependeces.dart';
 import 'package:carz_app/data/models/user_model.dart';
+import 'package:carz_app/routing/routes.dart';
 import 'package:carz_app/ui/auth/social_account_button.dart';
 import 'package:carz_app/ui/core/theme/app_theme.dart';
 import 'package:carz_app/ui/core/ui/custom_elevated_button.dart';
@@ -9,6 +10,7 @@ import 'package:carz_app/utils/util_funcs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class SignUpScreen extends ConsumerStatefulWidget {
   SignUpScreen({super.key});
@@ -178,5 +180,6 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     await userBox.put(Constants.user, userModel);
     await appBox.put(Constants.isLogged, true);
     print(userModel.toString());
+    context.go(Routes.chooseInterestScreen);
   }
 }

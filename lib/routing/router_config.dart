@@ -4,6 +4,8 @@ import 'package:carz_app/ui/auth/log_in_screen.dart';
 import 'package:carz_app/ui/auth/sign_up_screen.dart';
 import 'package:carz_app/ui/main/chooce_interest.dart';
 import 'package:carz_app/ui/main/main_screen.dart';
+import 'package:carz_app/ui/main/widgets/item_brand_car.dart';
+import 'package:carz_app/ui/main/widgets/item_pupoler_car.dart';
 import 'package:go_router/go_router.dart';
 
 final router = GoRouter(

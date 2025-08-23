@@ -1,10 +1,18 @@
+import 'package:carz_app/config/dependeces.dart';
 import 'package:carz_app/ui/core/theme/app_theme.dart';
+import 'package:carz_app/ui/core/ui/custom_elevated_button.dart';
 import 'package:carz_app/utils/util_funcs.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MainScreen extends StatelessWidget {
+class MainScreen extends ConsumerStatefulWidget {
   const MainScreen({super.key});
 
+  @override
+  ConsumerState<MainScreen> createState() => _MainScreenState();
+}
+
+class _MainScreenState extends ConsumerState<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,11 +27,13 @@ class MainScreen extends StatelessWidget {
                 Row(
                   children: [
                     SizedBox(
-                      width: 50.0,
-                      height: 50.0,
+                      width: 150.0,
+                      height: 150.0,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(12.0),
-                        child: Image.asset(getImagePath("user.png")),
+                        child: Image.network(
+                          "https://raw.githubusercontent.com/muhammednashat/carz_images/main/101.png",
+                        ),
                       ),
                     ),
                     SizedBox(width: 8.0),
@@ -68,9 +78,14 @@ class MainScreen extends StatelessWidget {
 
                 SizedBox(height: 24.0),
                 ItemRow(title: 'Trending Brands'),
-                 
+
                 SizedBox(height: 24.0),
                 ItemRow(title: 'Pupolar Car'),
+
+                SizedBox(height: 24.0),
+
+
+CustomElevatedButton(onPressed: _onPressed, text: 'text')
               ],
             ),
           ),
@@ -78,6 +93,17 @@ class MainScreen extends StatelessWidget {
       ),
     );
   }
+
+ _onPressed()async{
+
+
+  final repo  = ref.watch(productsRepoProvider);
+  // print  ( await repo.getCarsBrand());
+  //  print  ( await repo.getCarsByBrand("fra"));
+   
+
+ }
+
 }
 
 class ItemRow extends StatelessWidget {

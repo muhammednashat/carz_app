@@ -1,10 +1,11 @@
+import 'package:carz_app/utils/constants.dart';
 import 'package:graphql/client.dart';
 
 class AuthService {
-  final gl = GraphQLClient(
-    link: HttpLink('http://192.168.1.5:8000/carz'),
-    cache: GraphQLCache(),
-  );
+
+  final GraphQLClient graphQLClient;
+
+AuthService({required this.graphQLClient});
 
  Future<QueryResult> creatNewAccount(String name, String email) async {
     final newUserMutation = r'''
@@ -23,7 +24,7 @@ class AuthService {
       variables: <String, dynamic>{'name': name, 'email': email},
     );
 
-    return await gl.mutate(mutationOptions);
+    return await graphQLClient.mutate(mutationOptions);
 
   
   }
@@ -46,7 +47,7 @@ variables: <String , dynamic>{"email": email, }
 );
 
 
-return await gl.query(queryOptions);
+return await graphQLClient.query(queryOptions);
 
 }
 

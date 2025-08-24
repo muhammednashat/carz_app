@@ -1,10 +1,9 @@
-import 'package:carz_app/ui/main/chooce_interest.dart';
-import 'package:carz_app/utils/util_funcs.dart';
+import 'package:carz_app/data/models/brand_model.dart';
 import 'package:flutter/material.dart';
 
 class ItemBrandCar extends StatelessWidget {
   const ItemBrandCar({super.key, required this.brand});
-final Brand brand ; 
+  final BrandModel brand ; 
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -16,7 +15,7 @@ final Brand brand ;
                 child: Card(
                   child: Padding(
                     padding: const EdgeInsets.all(4.0),
-                    child: Image.asset(getIconPath(brand.image)),
+                    child: Image.network(brand.imageUrl),
                   ),
                 ),
               ),

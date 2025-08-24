@@ -1,6 +1,10 @@
 import 'package:carz_app/config/dependeces.dart';
+import 'package:carz_app/data/models/brand_model.dart';
+import 'package:carz_app/data/models/car_model.dart';
 import 'package:carz_app/ui/core/theme/app_theme.dart';
 import 'package:carz_app/ui/core/ui/custom_elevated_button.dart';
+import 'package:carz_app/ui/main/widgets/item_brand_car.dart';
+import 'package:carz_app/ui/main/widgets/item_pupoler_car.dart';
 import 'package:carz_app/utils/util_funcs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,95 +19,111 @@ class MainScreen extends ConsumerStatefulWidget {
 class _MainScreenState extends ConsumerState<MainScreen> {
   @override
   Widget build(BuildContext context) {
+    final AsyncValue<List<BrandModel>> trendingBrands = ref.watch(
+      trendingBrandsProvider,
+    );
+
+    final AsyncValue<List<CarModel>> popularCars = ref.watch(
+      popularCarsProvider,
+    );
+
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 50.0),
-                Row(
-                  children: [
-                    SizedBox(
-                      width: 150.0,
-                      height: 150.0,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(12.0),
-                        child: Image.network(
-                          "https://raw.githubusercontent.com/muhammednashat/carz_images/main/101.png",
-                        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 30.0),
+              Row(
+                children: [
+                  SizedBox(
+                    width: 50.0,
+                    height: 50.0,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(12.0),
+                      child: Image.network(
+                        "https://raw.githubusercontent.com/muhammednashat/carz_images/main/101.png",
                       ),
                     ),
-                    SizedBox(width: 8.0),
-                    Text.rich(
-                      TextSpan(
-                        text: "Hello, Mohammed",
-                        children: [TextSpan(text: "👋")],
+                  ),
+                  SizedBox(width: 8.0),
+                  Text.rich(
+                    TextSpan(
+                      text: "Hello, Mohammed",
+                      children: [TextSpan(text: "👋")],
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 24.0),
+
+              Text('Let\'s find your favourite car here'),
+              SizedBox(height: 8.0),
+
+              Row(
+                children: [
+                  Flexible(
+                    flex: 1,
+                    child: TextField(
+                      decoration: InputDecoration(
+                        hintText: 'Search',
+                        prefixIcon: Icon(Icons.search),
                       ),
                     ),
-                  ],
-                ),
-                SizedBox(height: 24.0),
-
-                Text('Let\'s find your favourite car here'),
-                SizedBox(height: 8.0),
-
-                Row(
-                  children: [
-                    Flexible(
-                      flex: 1,
-                      child: TextField(
-                        decoration: InputDecoration(
-                          hintText: 'Search',
-                          prefixIcon: Icon(Icons.search),
-                        ),
-                      ),
+                  ),
+                  SizedBox(width: 8.0),
+                  Container(
+                    width: 50.0,
+                    child: IconButton(
+                      onPressed: () {},
+                      icon: Icon(Icons.filter_alt),
                     ),
-                    SizedBox(width: 8.0),
-                    Container(
-                      width: 50.0,
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.filter_alt),
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppTheme.accent,
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
+                    decoration: BoxDecoration(
+                      color: AppTheme.accent,
+                      borderRadius: BorderRadius.circular(10.0),
                     ),
-                  ],
-                ),
+                  ),
+                ],
+              ),
 
-                SizedBox(height: 24.0),
-                ItemRow(title: 'Trending Brands'),
+              SizedBox(height: 24.0),
+              ItemRow(title: 'Trending Brands'),
+              SizedBox(
+                height: 150.0,
+                child: switch (trendingBrands) {
+                  AsyncValue(:final value?) => ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: 5,
+                    itemBuilder: (context, index) {
+                      return ItemBrandCar(brand: value[index]);
+                    },
+                  ),
+                  AsyncData(:final error) => Text('Error: $error'),
+                  _ => Center(child: CircularProgressIndicator()),
+                },
+              ),
+              ItemRow(title: 'Pupolar Car'),
 
-                SizedBox(height: 24.0),
-                ItemRow(title: 'Pupolar Car'),
-
-                SizedBox(height: 24.0),
-
-
-CustomElevatedButton(onPressed: _onPressed, text: 'text')
-              ],
-            ),
+              SizedBox(height: 24.0),
+              Expanded(
+                child: switch (popularCars) {
+                  AsyncData(:final value) => ListView.builder(
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return ItemPupolerCar(car: value[index]);
+                    },
+                  ),
+                  AsyncError(:final error) => Text('dfa'),
+                  _ => Center(child: CircularProgressIndicator()),
+                },
+              ),
+            ],
           ),
         ),
       ),
     );
   }
-
- _onPressed()async{
-
-
-  final repo  = ref.watch(productsRepoProvider);
-  // print  ( await repo.getCarsBrand());
-  //  print  ( await repo.getCarsByBrand("fra"));
-   
-
- }
-
 }
 
 class ItemRow extends StatelessWidget {

@@ -9,50 +9,40 @@ import 'package:graphql/client.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 
-Future<String> _path()async{
-    final dir = await getApplicationDocumentsDirectory();
+Future<String> _path() async {
+  final dir = await getApplicationDocumentsDirectory();
   return dir.path;
 }
-  
-final graphQlClientProvider = Provider((ref){
-    return GraphQLClient(
+
+final graphQlClientProvider = Provider((ref) {
+  return GraphQLClient(
     link: HttpLink(Constants.baseUrl),
     cache: GraphQLCache(),
- 
   );
 });
 
-
-
 final userBoxProvider = FutureProvider((ref) async {
-final path = await _path();
+  final path = await _path();
   Hive.registerAdapter(UserModelAdapter());
 
   return await Hive.openBox('user', path: path);
 });
 
-final appBoxProvider = FutureProvider((ref)async{
- final path =  await _path();
-return await Hive.openBox('app', path: path);
+final appBoxProvider = FutureProvider((ref) async {
+  final path = await _path();
+  return await Hive.openBox('app', path: path);
 });
 
 //Services
-final authServiceProvider = Provider((ref){
+final authServiceProvider = Provider((ref) {
+  final graphQlClient = ref.watch(graphQlClientProvider);
+  return AuthService(graphQLClient: graphQlClient);
+});
 
-final graphQlClient = ref.watch(graphQlClientProvider);
-return AuthService(graphQLClient: graphQlClient);
-}
-  
-  
-  );
-
-
-final productsServiceProvider = Provider((ref){
+final productsServiceProvider = Provider((ref) {
   final graphQLClient = ref.watch(graphQlClientProvider);
   return ProductsService(graphQLClient: graphQLClient);
 });
-
-
 
 //Repos
 final authRepoProvider = Provider((ref) {
@@ -60,10 +50,25 @@ final authRepoProvider = Provider((ref) {
   return AuthRepo(service: service);
 });
 
-
-final productsRepoProvider = Provider((ref){
-
+final productsRepoProvider = Provider((ref) {
   final service = ref.watch(productsServiceProvider);
 
   return ProductsRepo(service: service);
+});
+
+// final repo = ref.watch(productsRepoProvider);
+// print  ( await repo.getCarsBrand());
+//  print  ( await repo.getCarsByBrand("fra"));
+//  print  ( await repo.getTrendingBrands());
+//  print  ( await repo.getPopulars());
+// queries
+
+final trendingBrandsProvider = FutureProvider((ref) {
+  final repo = ref.watch(productsRepoProvider);
+  return repo.getCarsBrand();
+});
+
+final popularCarsProvider = FutureProvider((ref) {
+  final repo = ref.watch(productsRepoProvider);
+  return repo.getPopulars();
 });

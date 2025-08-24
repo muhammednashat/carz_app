@@ -7,19 +7,33 @@ class ProductsRepo {
 
   ProductsRepo({required this.service});
 
-  Future<CarModel> getPopulars() async {
+  Future<List<CarModel>> getPopulars() async {
     final result = await service.getPopulars();
+                                
+    final json = result.data?['populars'] as List<dynamic>;
+    
 
-    final json = result.data as Map<String, dynamic>;
-    return CarModel.fromJson(json);
+    return json.map((e)=> CarModel.fromJson(e)).toList();
   }
 
-  Future<CarModel> getTrendingBrands() async {
+
+  Future<List<CarModel>> getTrendingBrands() async {
     final result = await service.getTrendingBrands();
 
-    final json = result.data as Map<String, dynamic>;
-    return CarModel.fromJson(json);
+    final json = result.data?['trendingBrands'] as List<dynamic>;
+     return json.map((e) => CarModel.fromJson(e)).toList();
   }
+
+
+
+
+
+
+
+
+
+
+
 
   Future <List<CarModel>> getCarsByBrand(String brand) async {
     final result = await service.getCarsByBrand(brand);

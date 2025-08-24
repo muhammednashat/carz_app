@@ -1,9 +1,10 @@
+import 'package:carz_app/data/models/car_model.dart';
 import 'package:carz_app/utils/util_funcs.dart';
 import 'package:flutter/material.dart';
 
 class ItemPupolerCar extends StatelessWidget {
-  const ItemPupolerCar({super.key});
-
+  const ItemPupolerCar({super.key, required this.car});
+  final CarModel car;
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -11,11 +12,11 @@ class ItemPupolerCar extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            Image.asset(getImagePath("car.png"), height: 200.0),
+            Image.network(car.imgUrl, height: 150.0),
             SizedBox(height: 16.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [Text("Mercedes Slk Class"), Text("⭐ 4.9")],
+              children: [Text(car.name), Text("⭐ ${car.rating}")],
             ),
             SizedBox(height: 8.0),
 
@@ -24,7 +25,11 @@ class ItemPupolerCar extends StatelessWidget {
 
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [Text("1100 hp"), Text("Automatic"), Text("\$85,000")],
+              children: [
+                Text("1100 hp"),
+                Text(car.transmissionOptions),
+                Text("\$${car.price}"),
+              ],
             ),
           ],
         ),

@@ -9,7 +9,7 @@ class ProductsService {
     // list car
     final queryString = r'''
              query{
-                popular{
+                populars{
                   id
                   name
                   price

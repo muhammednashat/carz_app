@@ -1,9 +1,8 @@
 import 'package:carz_app/data/models/car_model.dart';
-import 'package:carz_app/utils/util_funcs.dart';
 import 'package:flutter/material.dart';
 
-class ItemPupolerCar extends StatelessWidget {
-  const ItemPupolerCar({super.key, required this.car});
+class ItemPopularCars extends StatelessWidget {
+  const ItemPopularCars({super.key, required this.car});
   final CarModel car;
   @override
   Widget build(BuildContext context) {

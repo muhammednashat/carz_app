@@ -56,12 +56,7 @@ final productsRepoProvider = Provider((ref) {
   return ProductsRepo(service: service);
 });
 
-// final repo = ref.watch(productsRepoProvider);
-// print  ( await repo.getCarsBrand());
-//  print  ( await repo.getCarsByBrand("fra"));
-//  print  ( await repo.getTrendingBrands());
-//  print  ( await repo.getPopulars());
-// queries
+
 
 final trendingBrandsProvider = FutureProvider((ref) {
   final repo = ref.watch(productsRepoProvider);

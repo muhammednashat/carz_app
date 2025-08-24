@@ -1,13 +1,13 @@
 import 'package:carz_app/config/dependeces.dart';
 import 'package:carz_app/data/models/brand_model.dart';
 import 'package:carz_app/data/models/car_model.dart';
+import 'package:carz_app/routing/routes.dart';
 import 'package:carz_app/ui/core/theme/app_theme.dart';
-import 'package:carz_app/ui/core/ui/custom_elevated_button.dart';
 import 'package:carz_app/ui/main/widgets/item_brand_car.dart';
-import 'package:carz_app/ui/main/widgets/item_pupoler_car.dart';
-import 'package:carz_app/utils/util_funcs.dart';
+import 'package:carz_app/ui/main/widgets/item_popular_cars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class MainScreen extends ConsumerStatefulWidget {
   const MainScreen({super.key});
@@ -88,7 +88,9 @@ class _MainScreenState extends ConsumerState<MainScreen> {
               ),
 
               SizedBox(height: 24.0),
-              ItemRow(title: 'Trending Brands'),
+              ItemRow(title: 'Trending Brands' , callback:() {
+                context.push(Routes.allBrandsScreen);
+              },),
               SizedBox(
                 height: 150.0,
                 child: switch (trendingBrands) {
@@ -103,7 +105,9 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                   _ => Center(child: CircularProgressIndicator()),
                 },
               ),
-              ItemRow(title: 'Pupolar Car'),
+              ItemRow(title: 'Pupolar Car' , callback:() {
+                context.push(Routes.allCarsScreen);
+              },),
 
               SizedBox(height: 24.0),
               Expanded(
@@ -111,7 +115,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                   AsyncData(:final value) => ListView.builder(
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
-                      return ItemPupolerCar(car: value[index]);
+                      return ItemPopularCars(car: value[index]);
                     },
                   ),
                   AsyncError(:final error) => Text('dfa'),
@@ -127,13 +131,18 @@ class _MainScreenState extends ConsumerState<MainScreen> {
 }
 
 class ItemRow extends StatelessWidget {
-  const ItemRow({super.key, required this.title});
+  const ItemRow({super.key, required this.title, required this.callback});
   final String title;
+  final VoidCallback callback;
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [Text(title), Text('view all')],
+      children: [Text(title),
+      TextButton(onPressed: callback, child:   Text('view all'))
+     
+       
+       ],
     );
   }
 }

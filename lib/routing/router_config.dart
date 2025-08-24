@@ -1,11 +1,11 @@
 import 'package:carz_app/routing/routes.dart';
 import 'package:carz_app/splash_screen.dart';
+import 'package:carz_app/ui/all_brands/all_brands.dart';
+import 'package:carz_app/ui/all_car/all_cars.dart';
 import 'package:carz_app/ui/auth/log_in_screen.dart';
 import 'package:carz_app/ui/auth/sign_up_screen.dart';
 import 'package:carz_app/ui/main/chooce_interest.dart';
 import 'package:carz_app/ui/main/main_screen.dart';
-import 'package:carz_app/ui/main/widgets/item_brand_car.dart';
-import 'package:carz_app/ui/main/widgets/item_pupoler_car.dart';
 import 'package:go_router/go_router.dart';
 
 final router = GoRouter(
@@ -17,6 +17,14 @@ final router = GoRouter(
     GoRoute(
       path: Routes.chooseInterestScreen,
       builder: (context, state) => ChooceInterestScreen(),
+    ),
+    GoRoute(
+      path: Routes.allCarsScreen,
+      builder: (context, state) => AllCarsScreen(),
+    ), 
+    GoRoute(
+      path: Routes.allBrandsScreen,
+      builder: (context, state) => AllBrandsScreen(),
     ),
 
     // Auth navigation /lo/s

@@ -50,6 +50,7 @@ class CarModel {
     );
   }
 
+ toJson(){}
 @override
 String toString() {
   return 'CarModel(id: $id, name: $name, price: $price, description: $description, brand: $brand, rating: $rating, transmissionOptions: $transmissionOptions, carType: $carType, fuelType: $fuelType, brandImage: $brandImage, imgUrl: $imgUrl, isPopular: $isPopular, canConnectBluetooth: $canConnectBluetooth, isAutomatic: $isAutomatic)';

@@ -4,7 +4,7 @@ import 'package:carz_app/data/models/car_model.dart';
 import 'package:carz_app/routing/routes.dart';
 import 'package:carz_app/ui/core/theme/app_theme.dart';
 import 'package:carz_app/ui/main/widgets/item_brand_car.dart';
-import 'package:carz_app/ui/main/widgets/item_popular_cars.dart';
+import 'package:carz_app/ui/main/widgets/item_car.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -17,6 +17,8 @@ class MainScreen extends ConsumerStatefulWidget {
 }
 
 class _MainScreenState extends ConsumerState<MainScreen> {
+  
+
   @override
   Widget build(BuildContext context) {
     final AsyncValue<List<BrandModel>> trendingBrands = ref.watch(
@@ -106,7 +108,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                 },
               ),
               ItemRow(title: 'Pupolar Car' , callback:() {
-                context.push(Routes.allCarsScreen);
+                context.push(Routes.allCarsScreen, extra: popularCars.value);
               },),
 
               SizedBox(height: 24.0),

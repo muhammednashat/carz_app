@@ -1,9 +1,11 @@
+import 'package:carz_app/data/models/car_model.dart';
 import 'package:carz_app/routing/routes.dart';
 import 'package:carz_app/splash_screen.dart';
 import 'package:carz_app/ui/all_brands/all_brands.dart';
 import 'package:carz_app/ui/all_car/all_cars.dart';
 import 'package:carz_app/ui/auth/log_in_screen.dart';
 import 'package:carz_app/ui/auth/sign_up_screen.dart';
+import 'package:carz_app/ui/car_details/car_details.dart';
 import 'package:carz_app/ui/main/chooce_interest.dart';
 import 'package:carz_app/ui/main/main_screen.dart';
 import 'package:go_router/go_router.dart';
@@ -17,10 +19,21 @@ final router = GoRouter(
     GoRoute(
       path: Routes.chooseInterestScreen,
       builder: (context, state) => ChooceInterestScreen(),
+    ),  
+    GoRoute(
+      path: Routes.carDetailsScreen,
+
+      builder: (context, state) {
+        final car = state.extra as CarModel;
+        return CarDetailsScreen(car: car);
+      },
     ),
     GoRoute(
       path: Routes.allCarsScreen,
-      builder: (context, state) => AllCarsScreen(),
+      builder: (context, state) { 
+        final cars = state.extra as List<CarModel> ;
+       return AllCarsScreen(cars: cars,);
+        },
     ), 
     GoRoute(
       path: Routes.allBrandsScreen,

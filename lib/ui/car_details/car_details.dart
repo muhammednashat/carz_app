@@ -1,4 +1,7 @@
 import 'package:carz_app/data/models/car_model.dart';
+import 'package:carz_app/ui/car_details/widgets/item_feature.dart';
+import 'package:carz_app/ui/car_details/widgets/item_row.dart';
+import 'package:carz_app/ui/car_details/widgets/show_bottom_sheet.dart';
 import 'package:carz_app/ui/core/ui/custom_elevated_button.dart';
 import 'package:carz_app/utils/util_funcs.dart';
 import 'package:flutter/material.dart';
@@ -34,9 +37,21 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  ItemRow(car: car),
-                  ItemRow(car: car),
-                  ItemRow(car: car),
+                  ItemRow(
+                    imageName: getIconPath('fuel.png'),
+                    label: 'Fuel Type',
+                    value: car.fuelType,
+                  ),
+                  ItemRow(
+                    imageName: getIconPath('engine.png'),
+                    label: 'Engine  ',
+                    value: '1600 hp',
+                  ),
+                  ItemRow(
+                    imageName: getIconPath('transmission.png'),
+                    label: 'Transmission',
+                    value: car.transmissionOptions,
+                  ),
                 ],
               ),
               SizedBox(height: 32.0),
@@ -61,53 +76,26 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
                 children: [Text('Total price'), Text('\$${car.price}')],
               ),
               SizedBox(height: 24.0),
-              CustomElevatedButton(onPressed: () {}, text: 'Book Now '),
+              CustomElevatedButton(
+                onPressed: () {
+                  showModelBottomSheet(context);
+                },
+                text: 'Book Now ',
+              ),
             ],
           ),
         ),
       ),
     );
   }
+
+
+
+
+
 }
 
-class ItemFeature extends StatelessWidget {
-  const ItemFeature({
-    super.key,
-    required this.title,
-    required this.iconLeading,
-    required this.trailingText,
-  });
-  final IconData iconLeading;
-  final String title;
-  final String trailingText;
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      leading: Icon(iconLeading),
-      title: Text(title),
-      trailing: Text(trailingText),
-    );
-  }
-}
 
-class ItemRow extends StatelessWidget {
-  const ItemRow({super.key, required this.car});
 
-  final CarModel car;
 
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        decoration: BoxDecoration(color: Colors.grey),
-        child: Column(
-          children: [
-            Image.asset(getIconPath('fuel.png'), height: 25.0, width: 25.0),
-            Text('Fuel Type'),
-            Text(car.fuelType),
-          ],
-        ),
-      ),
-    );
-  }
-}
+

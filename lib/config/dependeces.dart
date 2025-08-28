@@ -1,7 +1,9 @@
 import 'package:carz_app/data/models/user_model.dart';
 import 'package:carz_app/data/repos/auth_repo.dart';
+import 'package:carz_app/data/repos/booking_repo.dart';
 import 'package:carz_app/data/repos/products_repo.dart';
 import 'package:carz_app/data/services/auth_service.dart';
+import 'package:carz_app/data/services/booking_service.dart';
 import 'package:carz_app/data/services/products_service.dart';
 import 'package:carz_app/utils/constants.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -44,6 +46,15 @@ final productsServiceProvider = Provider((ref) {
   return ProductsService(graphQLClient: graphQLClient);
 });
 
+final bookingServiceProvider = Provider((ref) {
+   final graphQLClient = ref.watch(graphQlClientProvider);
+
+   return BookingService(graphQLClient: graphQLClient);
+});
+
+
+
+
 //Repos
 final authRepoProvider = Provider((ref) {
   final service = ref.watch(authServiceProvider);
@@ -56,8 +67,13 @@ final productsRepoProvider = Provider((ref) {
   return ProductsRepo(service: service);
 });
 
+final bookingRepoProvider  = Provider((ref){
+   final service = ref.watch(bookingServiceProvider);
+  return BookingRepo(service: service);
+});
 
 
+// queries and mutations
 final trendingBrandsProvider = FutureProvider((ref) {
   final repo = ref.watch(productsRepoProvider);
   return repo.getCarsBrand();
@@ -67,3 +83,5 @@ final popularCarsProvider = FutureProvider((ref) {
   final repo = ref.watch(productsRepoProvider);
   return repo.getPopulars();
 });
+
+

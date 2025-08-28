@@ -10,6 +10,6 @@ class Routes {
   static const String carDetailsScreen = '/carDetails' ;
   static const String confirmAddressScreen= '/confirmAddressScreen' ;
   static const String paymentMethodScreen= '/paymentMethodScreen' ;
-
+  static const String addNewCard = '/addNewCard';
   
 }

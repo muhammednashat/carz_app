@@ -11,5 +11,6 @@ class Routes {
   static const String confirmAddressScreen= '/confirmAddressScreen' ;
   static const String paymentMethodScreen= '/paymentMethodScreen' ;
   static const String addNewCard = '/addNewCard';
+  static const String appBottomTabBar  = '/appBottomTabBar';
   
 }

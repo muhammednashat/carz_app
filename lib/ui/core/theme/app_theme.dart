@@ -17,20 +17,12 @@ class AppTheme {
       primary: accent,
       secondary: accent,
       onPrimary: textDark,
-
     ),
     textTheme: TextTheme(
-      headlineLarge: TextStyle(
-        color: textDark,
-        fontWeight: FontWeight.bold,
-
-      ),
-
-      headlineSmall: TextStyle(
-        fontWeight: FontWeight.bold,
-       color: textDark 
-      ),
-    
+      headlineSmall: TextStyle(fontWeight: FontWeight.bold, color: textDark),
+      titleLarge: TextStyle(color: textDark, fontWeight: FontWeight.bold),
+      titleMedium: TextStyle(color: textDark),
+      titleSmall: TextStyle(color: textDark),
     ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
@@ -51,32 +43,31 @@ class AppTheme {
   );
 
   static ThemeData lightTheme = ThemeData(
-  
     brightness: Brightness.light,
- 
+
     scaffoldBackgroundColor: lightBg,
 
     primaryColor: accent,
-  // this is the foundation of main color. All widgets
-  // will follow these colors unless you overriding
 
-  colorScheme: ColorScheme.light(
-  surface: lightBg, // Background color for surfaces like cards, sheets, dialogs
-  primary: accent, // Main brand color used across the app (buttons, app bar, etc.)
-  secondary: accent, // Secondary/accent color for highlights like FABs, chips
-  onPrimary: textLight, // Text/icon color shown on top of the primary color (e.g., button text)
-),
+    // this is the foundation of main color. All widgets
+    // will follow these colors unless you overriding
+    colorScheme: ColorScheme.light(
+      surface:
+          lightBg, // Background color for surfaces like cards, sheets, dialogs
+      primary:
+          accent, // Main brand color used across the app (buttons, app bar, etc.)
+      secondary:
+          accent, // Secondary/accent color for highlights like FABs, chips
+      onPrimary:
+          textLight, // Text/icon color shown on top of the primary color (e.g., button text)
+    ),
 
     textTheme: TextTheme(
-       headlineLarge: TextStyle(
-        color: textLight,
-        fontWeight: FontWeight.bold,
-       ),
-      headlineSmall: TextStyle(
-        color: textLight,
-        fontWeight: FontWeight.bold,
-      ),
-
+      headlineSmall: TextStyle(color: textLight, fontWeight: FontWeight.bold),
+      
+      titleLarge: TextStyle(color: textLight, fontWeight: FontWeight.bold),
+      titleMedium: TextStyle(color: textLight),
+      titleSmall: TextStyle(color: textLight),
     ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
@@ -94,9 +85,5 @@ class AppTheme {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       ),
     ),
-  
-
   );
-
-
 }

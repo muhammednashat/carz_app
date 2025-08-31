@@ -1,3 +1,4 @@
+import 'package:carz_app/data/models/booking_car_model.dart';
 import 'package:carz_app/data/models/user_model.dart';
 import 'package:carz_app/data/repos/auth_repo.dart';
 import 'package:carz_app/data/repos/booking_repo.dart';
@@ -47,13 +48,10 @@ final productsServiceProvider = Provider((ref) {
 });
 
 final bookingServiceProvider = Provider((ref) {
-   final graphQLClient = ref.watch(graphQlClientProvider);
+  final graphQLClient = ref.watch(graphQlClientProvider);
 
-   return BookingService(graphQLClient: graphQLClient);
+  return BookingService(graphQLClient: graphQLClient);
 });
-
-
-
 
 //Repos
 final authRepoProvider = Provider((ref) {
@@ -67,11 +65,10 @@ final productsRepoProvider = Provider((ref) {
   return ProductsRepo(service: service);
 });
 
-final bookingRepoProvider  = Provider((ref){
-   final service = ref.watch(bookingServiceProvider);
+final bookingRepoProvider = Provider((ref) {
+  final service = ref.watch(bookingServiceProvider);
   return BookingRepo(service: service);
 });
-
 
 // queries and mutations
 final trendingBrandsProvider = FutureProvider((ref) {
@@ -84,4 +81,9 @@ final popularCarsProvider = FutureProvider((ref) {
   return repo.getPopulars();
 });
 
-
+final bookCarProvide = FutureProvider.autoDispose.family<void, BookingCarModel>(
+  (ref, model) {
+    final bookingRepo = ref.watch(bookingRepoProvider);
+    return bookingRepo.bookCar(model);
+  },
+);

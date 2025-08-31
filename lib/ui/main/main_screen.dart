@@ -17,8 +17,6 @@ class MainScreen extends ConsumerStatefulWidget {
 }
 
 class _MainScreenState extends ConsumerState<MainScreen> {
-  
-
   @override
   Widget build(BuildContext context) {
     final AsyncValue<List<BrandModel>> trendingBrands = ref.watch(
@@ -36,7 +34,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 30.0),
+              SizedBox(height: 20.0),
               Row(
                 children: [
                   SizedBox(
@@ -53,6 +51,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                   Text.rich(
                     TextSpan(
                       text: "Hello, Mohammed",
+                      style: Theme.of(context).textTheme.headlineSmall,
                       children: [TextSpan(text: "👋")],
                     ),
                   ),
@@ -60,7 +59,10 @@ class _MainScreenState extends ConsumerState<MainScreen> {
               ),
               SizedBox(height: 24.0),
 
-              Text('Let\'s find your favourite car here'),
+              Text(
+                'Let\'s find your favourite car here',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
               SizedBox(height: 8.0),
 
               Row(
@@ -89,12 +91,16 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                 ],
               ),
 
-              SizedBox(height: 24.0),
-              ItemRow(title: 'Trending Brands' , callback:() {
-                context.push(Routes.allBrandsScreen);
-              },),
+              SizedBox(height: 16.0),
+              ItemRow(
+                title: 'Trending Brands',
+
+                callback: () {
+                  context.push(Routes.allBrandsScreen);
+                },
+              ),
               SizedBox(
-                height: 150.0,
+                height: 135.0,
                 child: switch (trendingBrands) {
                   AsyncValue(:final value?) => ListView.builder(
                     scrollDirection: Axis.horizontal,
@@ -107,9 +113,12 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                   _ => Center(child: CircularProgressIndicator()),
                 },
               ),
-              ItemRow(title: 'Pupolar Car' , callback:() {
-                context.push(Routes.allCarsScreen, extra: popularCars.value);
-              },),
+              ItemRow(
+                title: 'Pupolar Car',
+                callback: () {
+                  context.push(Routes.allCarsScreen, extra: popularCars.value);
+                },
+              ),
 
               SizedBox(height: 24.0),
               Expanded(
@@ -140,11 +149,18 @@ class ItemRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [Text(title),
-      TextButton(onPressed: callback, child:   Text('view all'))
-     
-       
-       ],
+      children: [
+        Text(title, style: Theme.of(context).textTheme.titleLarge),
+        TextButton(
+          onPressed: callback,
+          child: Text(
+            'view all',
+            style: Theme.of(
+              context,
+            ).textTheme.titleMedium?.copyWith(color: AppTheme.accent),
+          ),
+        ),
+      ],
     );
   }
 }

@@ -65,7 +65,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     // context.go(Routes.loginScreen);
 
     if (appBox.get(Constants.isLogged, defaultValue: false)) {
-      context.go(Routes.mainScreen);
+      context.go(Routes.appBottomTabBar);
     } else {
       context.go(Routes.loginScreen);
     }

@@ -55,7 +55,7 @@ class _ChooceInterestScreenState extends State<ChooceInterestScreen> {
   }
 
   _onPressed(){
-    context.go(Routes.mainScreen);
+    context.go(Routes.appBottomTabBar);
   }
 }
 

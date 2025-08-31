@@ -6,6 +6,7 @@ import 'package:carz_app/ui/all_brands/all_brands.dart';
 import 'package:carz_app/ui/all_car/all_cars.dart';
 import 'package:carz_app/ui/auth/log_in_screen.dart';
 import 'package:carz_app/ui/auth/sign_up_screen.dart';
+import 'package:carz_app/ui/bottom_navigation_bar.dart';
 import 'package:carz_app/ui/car_details/car_details.dart';
 import 'package:carz_app/ui/main/chooce_interest.dart';
 import 'package:carz_app/ui/main/main_screen.dart';
@@ -70,8 +71,8 @@ final router = GoRouter(
 
     //UserNavigation  //mainscreen
     GoRoute(
-      path: Routes.mainScreen,
-      builder: (context, state) => MainScreen(),
+      path: Routes.appBottomTabBar,
+      builder: (context, state) => AppBottomTabBar(),
       routes: [
 
      ]

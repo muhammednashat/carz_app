@@ -1,6 +1,6 @@
 class BookingCarModel {
   final String cardNumber;
-  final String id;
+  String?  id;
   final String address;
   final String car;
   String? userId;
@@ -11,7 +11,7 @@ class BookingCarModel {
     required this.cardNumber,
     required this.address,
     required this.car,
-    required this.id,
+     this.id,
   });
 
   factory BookingCarModel.fromJson(Map<String, dynamic> json) {

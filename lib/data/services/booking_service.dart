@@ -7,7 +7,7 @@ class BookingService {
 
   Future<QueryResult> bookCar(BookingCarModel model) async {
     final document = r'''
-         mutaion($userId: String, $address: String, $car: String , $cardNumber: String,){
+         mutation($userId: String, $address: String, $car: String , $cardNumber: String,){
           booking(userId:$userId, address:$address, car:$car, cardNumber:$cardNumber,){
             status
           }

@@ -173,6 +173,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     await userBox.put(Constants.user, user);
     print(user.toString());
     print(appBox.get('isLogged'));
-    context.go(Routes.mainScreen);
+    context.go(Routes.appBottomTabBar);
   }
 }

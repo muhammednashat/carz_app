@@ -103,10 +103,14 @@ class ProductsService {
              }
             ''';
     final options = QueryOptions(document: gql(queryString));
-
     final result = await graphQLClient.query(options);
-
-  
+    if(result.hasException){
+    throw Exception('faild because => ${result.exception.toString()}');
+    }
     return result;
-  }
+
+}
+
+
+
 }

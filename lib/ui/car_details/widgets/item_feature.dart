@@ -15,7 +15,10 @@ class ItemFeature extends StatelessWidget {
     return ListTile(
       leading: Icon(iconLeading),
       title: Text(title),
-      trailing: Text(trailingText),
+      trailing: Text(
+        trailingText,
+        style: Theme.of(context).textTheme.titleMedium,
+      ),
     );
   }
 }

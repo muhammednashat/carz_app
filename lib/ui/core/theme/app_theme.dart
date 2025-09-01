@@ -18,6 +18,9 @@ class AppTheme {
       secondary: accent,
       onPrimary: textDark,
     ),
+    appBarTheme: AppBarTheme(
+      centerTitle: true
+    ),
     textTheme: TextTheme(
       headlineSmall: TextStyle(fontWeight: FontWeight.bold, color: textDark),
       titleLarge: TextStyle(color: textDark, fontWeight: FontWeight.bold),
@@ -61,11 +64,13 @@ class AppTheme {
       onPrimary:
           textLight, // Text/icon color shown on top of the primary color (e.g., button text)
     ),
-
+      appBarTheme: AppBarTheme(
+      centerTitle: true
+    ),
     textTheme: TextTheme(
       headlineSmall: TextStyle(color: textLight, fontWeight: FontWeight.bold),
-      
-      titleLarge: TextStyle(color: textLight, fontWeight: FontWeight.bold),
+
+      titleLarge: TextStyle(color: textLight, fontWeight: FontWeight.bold , fontSize: 20.0),
       titleMedium: TextStyle(color: textLight),
       titleSmall: TextStyle(color: textLight),
     ),

@@ -15,7 +15,10 @@ class ItemBrandHoriz extends StatelessWidget {
         child: Card(
           child: ListTile(
             leading: Image.network(brand.imageUrl, height: 50.0, width: 50.0),
-            title: Text(brand.name),
+            title: Text(
+              brand.name,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
             subtitle: Text("${brand.numbers} Car Available"),
             trailing: Icon(Icons.arrow_forward_ios_rounded),
           ),

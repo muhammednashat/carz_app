@@ -1,4 +1,5 @@
 import 'package:carz_app/data/models/booking_car_model.dart';
+import 'package:carz_app/data/models/brand_model.dart';
 import 'package:carz_app/data/models/user_model.dart';
 import 'package:carz_app/data/repos/auth_repo.dart';
 import 'package:carz_app/data/repos/booking_repo.dart';
@@ -70,11 +71,22 @@ final bookingRepoProvider = Provider((ref) {
   return BookingRepo(service: service);
 });
 
+
+
 // queries and mutations
-final trendingBrandsProvider = FutureProvider((ref) {
-  final repo = ref.watch(productsRepoProvider);
-  return repo.getCarsBrand();
+final trendingBrandsProvider = FutureProvider<List<BrandModel>>((ref) async {
+  try {
+    print('2222222222222222');
+    final repo = ref.watch(productsRepoProvider);
+    return await repo.getCarsBrand(); 
+  } catch (e, st) {
+    print('1111111111111');
+    throw Exception("Failed to load trending brands: $e");
+  }
 });
+
+
+
 
 final popularCarsProvider = FutureProvider((ref) {
   final repo = ref.watch(productsRepoProvider);

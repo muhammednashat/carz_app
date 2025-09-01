@@ -49,7 +49,6 @@ class BrandsView extends StatelessWidget {
           ),
         ),
         SizedBox(height: 24.0),
-        Text('All Brands'),
         SizedBox(height: 24.0),
         Expanded(
           child: ListView.builder(

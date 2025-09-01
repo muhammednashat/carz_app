@@ -32,7 +32,7 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.network(car.imgUrl, height: 150.0),
+              Center(child: Image.network(car.imgUrl, height: 150.0)),
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -55,11 +55,17 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
                 ],
               ),
               SizedBox(height: 32.0),
-              Text('Descriptions'),
+              Text(
+                'Descriptions',
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
               SizedBox(height: 32.0),
               Text(car.description),
               SizedBox(height: 32.0),
-              Text('Best Features'),
+              Text(
+                'Best Features',
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
               ItemFeature(
                 iconLeading: Icons.bluetooth,
                 title: 'Bluetooth connectivity',
@@ -73,7 +79,16 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
               SizedBox(height: 16.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [Text('Total price'), Text('\$${car.price}')],
+                children: [
+                  Text(
+                    'Total price',
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  Text(
+                    '\$${car.price}',
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                ],
               ),
               SizedBox(height: 24.0),
               CustomElevatedButton(
@@ -82,20 +97,11 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
                 },
                 text: 'Book Now ',
               ),
+              SizedBox(height: 24.0),
             ],
           ),
         ),
       ),
     );
   }
-
-
-
-
-
 }
-
-
-
-
-

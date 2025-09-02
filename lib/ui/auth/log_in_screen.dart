@@ -1,5 +1,5 @@
 import 'package:carz_app/config/app_locale.dart';
-import 'package:carz_app/config/dependeces.dart';
+import 'package:carz_app/config/dependecy/dependeces.dart';
 import 'package:carz_app/routing/routes.dart';
 import 'package:carz_app/ui/auth/social_account_button.dart';
 import 'package:carz_app/ui/core/theme/app_theme.dart';

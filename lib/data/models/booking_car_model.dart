@@ -1,17 +1,20 @@
 class BookingCarModel {
-  final String cardNumber;
-  String?  id;
-  final String address;
-  final String car;
+  String cardNumber;
+  String? id;
+  String address;
+  String car;
   String? userId;
+  String time;
+  String date;
 
-  BookingCarModel(
-    {
-    this.userId,  
+  BookingCarModel({
+    this.userId,
     required this.cardNumber,
     required this.address,
     required this.car,
-     this.id,
+    required this.date,
+    required this.time,
+    this.id,
   });
 
   factory BookingCarModel.fromJson(Map<String, dynamic> json) {
@@ -20,6 +23,8 @@ class BookingCarModel {
       address: json['address'] as String,
       car: json['car'] as String,
       id: json['id'] as String,
+      date: json['date'] as String,
+      time: json['time'] as String,
     );
   }
 
@@ -27,6 +32,6 @@ class BookingCarModel {
 
   @override
   String toString() {
-    return "Booking {cardNumber: $cardNumber, address: $address, car: $car, id: $id}";
+    return "Booking {cardNumber: $cardNumber, address: $address, car: $car, id: $id, userId: $userId, time: $time, date: $date}";
   }
 }

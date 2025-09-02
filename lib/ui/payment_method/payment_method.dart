@@ -1,5 +1,4 @@
-import 'package:carz_app/config/dependeces.dart';
-import 'package:carz_app/data/models/booking_car_model.dart';
+import 'package:carz_app/config/dependecy/dependeces.dart';
 import 'package:carz_app/data/models/card_payment_model.dart';
 import 'package:carz_app/routing/routes.dart';
 import 'package:carz_app/ui/core/ui/custom_elevated_button.dart';
@@ -75,7 +74,6 @@ class _PaymentMethodScreenState extends ConsumerState<PaymentMethodScreen> {
               ],
             ),
             SizedBox(height: 18.0),
-
             CustomElevatedButton(onPressed: _onPressed, text: 'Pay Now'),
             SizedBox(height: 18.0),
           ],
@@ -85,16 +83,9 @@ class _PaymentMethodScreenState extends ConsumerState<PaymentMethodScreen> {
   }
 
   _onPressed() async {
-    final model = BookingCarModel(
-      cardNumber: "cardNumber",
-      address: "address",
-      car: "car",
-      userId: "31",
-    );
+    final model = ref.read(bookingModelProvider);
     final provier = await ref.watch(bookingRepoProvider);
     final res = await provier.bookCar(model);
-    setState(() {
-      
-    });
+    setState(() {});
   }
 }

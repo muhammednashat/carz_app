@@ -1,17 +1,20 @@
+import 'package:carz_app/config/dependecy/dependeces.dart';
 import 'package:carz_app/routing/routes.dart';
 import 'package:carz_app/ui/core/ui/custom_elevated_button.dart';
 import 'package:carz_app/utils/util_funcs.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class ConfirmAddressScreen extends StatefulWidget {
+class ConfirmAddressScreen extends ConsumerStatefulWidget {
   const ConfirmAddressScreen({super.key});
 
   @override
-  State<ConfirmAddressScreen> createState() => _ConfirmAddressScreenState();
+  ConsumerState<ConfirmAddressScreen> createState() =>
+      _ConfirmAddressScreenState();
 }
 
-class _ConfirmAddressScreenState extends State<ConfirmAddressScreen> {
+class _ConfirmAddressScreenState extends ConsumerState<ConfirmAddressScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,14 +51,20 @@ class _ConfirmAddressScreenState extends State<ConfirmAddressScreen> {
               ],
             ),
             SizedBox(height: 16.0),
-            CustomElevatedButton(onPressed: () {
-              context.push(Routes.paymentMethodScreen);
-            }, text: 'Confirm Address'),
+            CustomElevatedButton(
+              onPressed: _onPressed,
+              text: 'Confirm Address',
+            ),
             SizedBox(height: 16.0),
           ],
         ),
       ),
     );
+  }
+
+  _onPressed() {
+    ref.read(bookingModelProvider.notifier).setAddress("new address");
+    context.push(Routes.paymentMethodScreen);
   }
 }
 

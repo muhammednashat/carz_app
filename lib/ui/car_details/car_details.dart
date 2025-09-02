@@ -1,19 +1,23 @@
+import 'package:carz_app/config/dependecy/dependeces.dart';
 import 'package:carz_app/data/models/car_model.dart';
+import 'package:carz_app/data/models/user_model.dart';
 import 'package:carz_app/ui/car_details/widgets/item_feature.dart';
 import 'package:carz_app/ui/car_details/widgets/item_row.dart';
 import 'package:carz_app/ui/car_details/widgets/show_bottom_sheet.dart';
 import 'package:carz_app/ui/core/ui/custom_elevated_button.dart';
+import 'package:carz_app/utils/constants.dart';
 import 'package:carz_app/utils/util_funcs.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CarDetailsScreen extends StatefulWidget {
+class CarDetailsScreen extends ConsumerStatefulWidget {
   const CarDetailsScreen({super.key, required this.car});
   final CarModel car;
   @override
-  State<CarDetailsScreen> createState() => _CarDetailsScreenState();
+  ConsumerState<CarDetailsScreen> createState() => _CarDetailsScreenState();
 }
 
-class _CarDetailsScreenState extends State<CarDetailsScreen> {
+class _CarDetailsScreenState extends ConsumerState<CarDetailsScreen> {
   late CarModel car;
 
   @override
@@ -93,7 +97,7 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
               SizedBox(height: 24.0),
               CustomElevatedButton(
                 onPressed: () {
-                  showModelBottomSheet(context);
+                  updateModelData();
                 },
                 text: 'Book Now ',
               ),
@@ -103,5 +107,18 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
         ),
       ),
     );
+  }
+
+  void updateModelData() async {
+    final provider = ref.read(bookingModelProvider.notifier);
+    final userBox = await ref.watch(userBoxProvider.future);
+    final user = userBox.get(Constants.user) as UserModel;
+    provider.setCar(car.id);
+    provider.setUserId(user.id);
+    provider.setDate(DateTime.now().toString());
+    provider.setTime("7:00 Am");
+    
+    print(ref.read(bookingModelProvider));
+    showModelBottomSheet(context);
   }
 }

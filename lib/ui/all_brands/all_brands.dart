@@ -1,4 +1,4 @@
-import 'package:carz_app/config/dependeces.dart';
+import 'package:carz_app/config/dependecy/dependeces.dart';
 import 'package:carz_app/data/models/brand_model.dart';
 import 'package:carz_app/ui/all_brands/widgets/item_brand_horiz.dart';
 import 'package:flutter/material.dart';

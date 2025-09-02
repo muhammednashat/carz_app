@@ -9,7 +9,6 @@ import 'package:carz_app/ui/auth/sign_up_screen.dart';
 import 'package:carz_app/ui/bottom_navigation_bar.dart';
 import 'package:carz_app/ui/car_details/car_details.dart';
 import 'package:carz_app/ui/main/chooce_interest.dart';
-import 'package:carz_app/ui/main/main_screen.dart';
 import 'package:carz_app/ui/payment_method/add_new_card_screen.dart';
 import 'package:carz_app/ui/payment_method/payment_method.dart';
 import 'package:go_router/go_router.dart';

@@ -83,9 +83,12 @@ class _PaymentMethodScreenState extends ConsumerState<PaymentMethodScreen> {
   }
 
   _onPressed() async {
+    print("_onPressed");
     final model = ref.read(bookingModelProvider);
-    final provier = await ref.watch(bookingRepoProvider);
-    final res = await provier.bookCar(model);
+    print(model.toString());
+
+    final provier = await ref.read(bookCarProvide(model));
+
     setState(() {});
   }
 }

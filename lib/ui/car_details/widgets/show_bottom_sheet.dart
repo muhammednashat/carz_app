@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-Future<dynamic> showModelBottomSheet(BuildContext context) async {
+Future<dynamic> showModelBottomSheet(BuildContext context, WidgetRef ref) async {
   showModalBottomSheet(
     context: context,
     builder: (c) {
@@ -24,6 +24,7 @@ Future<dynamic> showModelBottomSheet(BuildContext context) async {
                 firstDate: DateTime(2000),
                 lastDate: DateTime(2100),
                 onDateChanged: (date) {
+                  updateDate(ref, date.toString());
                   print("Selected: ${DateTime.now().toString()}");
                 },
               ),
@@ -51,6 +52,6 @@ void _onPressed(BuildContext context) {
   context.push(Routes.confirmAddressScreen);
 }
 
-void updateDate(Ref ref, String date) {
-  // ref.read(bookingModelProvider.notifier).updateDate(date);
+void updateDate(WidgetRef ref, String date) {
+  ref.read(bookingModelProvider.notifier).setDate(date);
 }

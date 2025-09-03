@@ -119,6 +119,6 @@ class _CarDetailsScreenState extends ConsumerState<CarDetailsScreen> {
     provider.setTime("7:00 Am");
     
     print(ref.read(bookingModelProvider));
-    showModelBottomSheet(context);
+    showModelBottomSheet(context, ref);
   }
 }

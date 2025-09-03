@@ -2,6 +2,7 @@ import 'package:carz_app/data/models/car_model.dart';
 import 'package:carz_app/routing/routes.dart';
 import 'package:carz_app/splash_screen.dart';
 import 'package:carz_app/ui/address/confirm_address_screen.dart';
+import 'package:carz_app/ui/address/map_screen.dart';
 import 'package:carz_app/ui/all_brands/all_brands.dart';
 import 'package:carz_app/ui/all_car/all_cars.dart';
 import 'package:carz_app/ui/auth/log_in_screen.dart';
@@ -34,6 +35,11 @@ final router = GoRouter(
      GoRoute(
       path: Routes.paymentMethodScreen,
       builder: (context, state) => PaymentMethodScreen(),
+    ),
+    
+      GoRoute(
+      path: Routes.mapScreen,
+      builder: (context, state) => MapScreen(),
     ),  
     GoRoute(
       path: Routes.carDetailsScreen,

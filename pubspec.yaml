@@ -44,6 +44,9 @@ dependencies:
   go_router: ^16.1.0
   graphql: ^5.2.1
   build_runner: ^2.6.0
+  flutter_map: ^8.2.1
+  latlong2: ^0.9.1
+  url_launcher: ^6.3.2
   
 
 dev_dependencies:

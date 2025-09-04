@@ -34,6 +34,9 @@ class PaymentMethodScreen extends ConsumerStatefulWidget {
 }
 
 class _PaymentMethodScreenState extends ConsumerState<PaymentMethodScreen> {
+
+
+  int _selectedItem = -1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +50,7 @@ class _PaymentMethodScreenState extends ConsumerState<PaymentMethodScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Saved Cards'),
+                Text('Saved Cards', style:Theme.of(context).textTheme.titleLarge),
                 TextButton(onPressed: () {}, child: Text('Edit')),
               ],
             ),
@@ -56,7 +59,11 @@ class _PaymentMethodScreenState extends ConsumerState<PaymentMethodScreen> {
               child: ListView.builder(
                 itemCount: cards.length,
                 itemBuilder: (context, index) {
-                  return ItemPayment(card: cards[index]);
+                  return ItemPayment(
+                    card: cards[index],
+                    onTapp:_onPaymentTapped
+                    ,index:index,
+                     isSelected: _selectedItem == index);
                 },
               ),
             ),
@@ -80,6 +87,13 @@ class _PaymentMethodScreenState extends ConsumerState<PaymentMethodScreen> {
         ),
       ),
     );
+  }
+
+  _onPaymentTapped(int index){
+    print("+onPaymentTapped");
+       setState((){
+        _selectedItem = index;
+       });
   }
 
   _onPressed() async {

@@ -1,15 +1,19 @@
+import 'package:carz_app/config/dependecy/dependeces.dart';
+import 'package:carz_app/routing/routes.dart';
 import 'package:carz_app/ui/core/ui/custom_elevated_button.dart';
 import 'package:carz_app/utils/util_funcs.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
-class ProfileScreen extends StatefulWidget {
+class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  ConsumerState<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,16 +63,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ],
             ),
-            SizedBox(height: 48.0),
+            SizedBox(height: 24.0),
             ItemRow(title: 'My Profile', icon: Icons.person, onTap: () {}),
-            ItemRow(title: 'My Booking', icon: Icons.bookmarks, onTap: () {}),
+            ItemRow(
+              title: 'My Booking',
+              icon: Icons.bookmarks,
+              onTap: () {
+                context.push(Routes.myBookingScreen);
+              },
+            ),
             ItemRow(title: 'Settings', icon: Icons.settings, onTap: () {}),
             SizedBox(height: 24.0),
             Expanded(
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: CustomElevatedButton(
-                  onPressed: () {},
+                  onPressed: _onPressed,
                   text: "Edit Profile",
                 ),
               ),
@@ -77,6 +87,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
     );
+  }
+
+  void _onPressed() async {
+    print("get 4 repo");
+
+    final re = await ref.watch(userBookingProvider("31"));
+    print(re.value);
   }
 }
 
@@ -93,13 +110,16 @@ class ItemRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(title),
-      trailing: Icon(Icons.arrow_forward_ios),
-      leading: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Icon(icon, size: 25.0),
+    return GestureDetector(
+      onTap: onTap,
+      child: ListTile(
+        title: Text(title),
+        trailing: Icon(Icons.arrow_forward_ios),
+        leading: Card(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Icon(icon, size: 25.0),
+          ),
         ),
       ),
     );

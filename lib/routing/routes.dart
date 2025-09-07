@@ -13,4 +13,5 @@ class Routes {
   static const String addNewCard = '/addNewCard';
   static const String appBottomTabBar  = '/appBottomTabBar';
   static const String mapScreen = '/mapScreen';
+  static const String myBookingScreen = '/myBookingScreen';
 }

@@ -89,6 +89,12 @@ final popularCarsProvider = FutureProvider((ref) {
   return repo.getPopulars();
 });
 
+final userBookingProvider = FutureProvider.autoDispose
+    .family<List<BookingCarModel>, String>((ref, userId) {
+      final bookingRepo = ref.watch(bookingRepoProvider);
+      return bookingRepo.getUserBooking(userId);
+    });
+
 final bookCarProvide = FutureProvider.autoDispose.family<void, BookingCarModel>(
   (ref, model) {
     final bookingRepo = ref.watch(bookingRepoProvider);
@@ -96,7 +102,8 @@ final bookCarProvide = FutureProvider.autoDispose.family<void, BookingCarModel>(
   },
 );
 
-
 // Notifires
-final bookingModelProvider = NotifierProvider<BookingStateNotifire, BookingCarModel>(BookingStateNotifire.new);
-
+final bookingModelProvider =
+    NotifierProvider<BookingStateNotifire, BookingCarModel>(
+      BookingStateNotifire.new,
+    );

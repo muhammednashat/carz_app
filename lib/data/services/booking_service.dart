@@ -30,4 +30,41 @@ class BookingService {
 
     return queryResult;
   }
+
+  Future<QueryResult> getUserBooking(String userId) async {
+    /**
+     * query{
+    userBookings(userId:"31"){
+        id
+        cardNumber
+        address
+        car
+    }
+}
+
+     */
+
+    final document = r'''
+   query userBookings($userId:String){
+     userBookings(userId:$userId){
+        id
+        cardNumber
+        address
+        car
+        date
+        time
+     }
+   }
+
+          ''';
+
+    final options = QueryOptions(
+      document: gql(document),
+
+      fetchPolicy: FetchPolicy.networkOnly,
+      variables: <String, dynamic>{'userId': userId},
+    );
+
+    return graphQLClient.query(options);
+  }
 }

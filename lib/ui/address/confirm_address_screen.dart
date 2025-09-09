@@ -73,7 +73,7 @@ class _ConfirmAddressScreenState extends ConsumerState<ConfirmAddressScreen> {
               children: [
                 FloatingActionButton(
                   onPressed: () {
-                    // context.push(Routes.mapScreen);
+                    context.push(Routes.mapScreen);
                   },
                   child: Icon(Icons.add_location_alt_outlined),
                 ),

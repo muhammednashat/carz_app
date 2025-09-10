@@ -1,4 +1,5 @@
 import 'package:carz_app/config/dependecy/dependeces.dart';
+import 'package:carz_app/config/dependecy/notifire_provider.dart';
 import 'package:carz_app/data/models/card_payment_model.dart';
 import 'package:carz_app/ui/core/theme/app_theme.dart';
 import 'package:carz_app/utils/util_funcs.dart';

@@ -1,4 +1,5 @@
 import 'package:carz_app/config/dependecy/dependeces.dart';
+import 'package:carz_app/config/dependecy/query_mutation_provider.dart';
 import 'package:carz_app/routing/routes.dart';
 import 'package:carz_app/ui/core/ui/custom_elevated_button.dart';
 import 'package:carz_app/utils/util_funcs.dart';

@@ -1,5 +1,6 @@
 import 'package:carz_app/config/app_locale.dart';
 import 'package:carz_app/config/dependecy/dependeces.dart';
+import 'package:carz_app/config/dependecy/reposotry_provider.dart';
 import 'package:carz_app/data/models/user_model.dart';
 import 'package:carz_app/routing/routes.dart';
 import 'package:carz_app/ui/auth/social_account_button.dart';

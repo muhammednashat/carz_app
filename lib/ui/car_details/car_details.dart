@@ -1,4 +1,5 @@
 import 'package:carz_app/config/dependecy/dependeces.dart';
+import 'package:carz_app/config/dependecy/notifire_provider.dart';
 import 'package:carz_app/data/models/car_model.dart';
 import 'package:carz_app/data/models/user_model.dart';
 import 'package:carz_app/ui/car_details/widgets/item_feature.dart';

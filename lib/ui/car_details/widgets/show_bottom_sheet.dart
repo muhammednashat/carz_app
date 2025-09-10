@@ -1,4 +1,5 @@
 import 'package:carz_app/config/dependecy/dependeces.dart';
+import 'package:carz_app/config/dependecy/notifire_provider.dart';
 import 'package:carz_app/routing/routes.dart';
 import 'package:carz_app/ui/car_details/widgets/time_picker.dart';
 import 'package:carz_app/ui/core/ui/custom_elevated_button.dart';

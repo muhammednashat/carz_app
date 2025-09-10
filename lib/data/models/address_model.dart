@@ -1,7 +1,10 @@
 class AddressModel {
-
-  final String name;
+  final String title;
   final String address;
-  final String imageName;
-  AddressModel({required this.imageName, required this.address, required this.name});
+
+  AddressModel({required this.address, required this.title});
+
+  factory AddressModel.fromJson(Map<String, dynamic> json) {
+    return AddressModel(address: json['address'], title: json['title']);
+  }
 }

@@ -1,24 +1,26 @@
+import 'package:carz_app/config/dependecy/reposotry_provider.dart';
 import 'package:carz_app/ui/core/theme/app_theme.dart';
 import 'package:carz_app/ui/core/ui/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:geocoding/geocoding.dart';
 
-class MapScreen extends StatefulWidget {
+class MapScreen extends ConsumerStatefulWidget {
   const MapScreen({super.key});
 
   @override
-  State<MapScreen> createState() => _MapScreenState();
+  ConsumerState<MapScreen> createState() => _MapScreenState();
 }
 
-class _MapScreenState extends State<MapScreen> {
+class _MapScreenState extends ConsumerState<MapScreen> {
   bool _isTapped = false;
   double lat = 29.979857;
   double lon = 31.255055;
   String address = 'Loading.......';
-
+  bool _isLoading = true;
   @override
   void initState() {
     // TODO: implement initState
@@ -33,7 +35,15 @@ class _MapScreenState extends State<MapScreen> {
     return Stack(
       children: [
         FlutterMap(
-          options: MapOptions(onTap: _ontap, initialCenter: LatLng(lat, lon)),
+          options: MapOptions(
+            onMapReady: () {
+              setState(() {
+                _isLoading = false;
+              });
+            },
+            onTap: _ontap,
+            initialCenter: LatLng(lat, lon),
+          ),
 
           children: [
             TileLayer(
@@ -52,6 +62,7 @@ class _MapScreenState extends State<MapScreen> {
             ),
           ],
         ),
+
         Positioned(
           top: 30.0,
           left: 20.0,
@@ -80,6 +91,11 @@ class _MapScreenState extends State<MapScreen> {
             ),
           ),
         ),
+
+        if (_isLoading)
+          Positioned.fill(
+            child: Container(child: Center(child: CircularProgressIndicator())),
+          ),
       ],
     );
   }
@@ -152,7 +168,7 @@ class _MapScreenState extends State<MapScreen> {
             TextButton(
               onPressed: () {
                 context.pop();
-                _updateAddress(address, controller.text);
+                saveUserAddress(address, controller.text);
               },
               child: Text('Ok'),
             ),
@@ -164,7 +180,15 @@ class _MapScreenState extends State<MapScreen> {
     );
   }
 
-  void _updateAddress(String address, String title) async {
-  
+  void saveUserAddress(String address, String title) async {
+   setState(() {
+     _isLoading = true;
+   });   
+    final addressRepo = ref.read(addressRepoProvider);
+    await addressRepo.addAddress(title, address, "31");
+     setState(() {
+     _isLoading = false;
+     context.pop();
+   }); 
   }
 }

@@ -1,4 +1,6 @@
 import 'package:carz_app/config/dependecy/dependeces.dart';
+import 'package:carz_app/config/dependecy/notifire_provider.dart';
+import 'package:carz_app/config/dependecy/query_mutation_provider.dart';
 import 'package:carz_app/data/models/card_payment_model.dart';
 import 'package:carz_app/routing/routes.dart';
 import 'package:carz_app/ui/core/ui/custom_elevated_button.dart';

@@ -1,4 +1,5 @@
 import 'package:carz_app/config/dependecy/dependeces.dart';
+import 'package:carz_app/config/dependecy/notifire_provider.dart';
 import 'package:carz_app/data/models/address_model.dart';
 import 'package:carz_app/routing/routes.dart';
 import 'package:carz_app/ui/core/theme/app_theme.dart';
@@ -10,19 +11,16 @@ import 'package:go_router/go_router.dart';
 
 final addresses = [
   AddressModel(
-    name: 'Home',
+    title: 'Home',
     address: '12 Tahrir Street, Downtown, Cairo, Egypt',
-    imageName: 'location1.jpeg',
   ),
   AddressModel(
-    name: 'Office 1',
+    title: 'Office 1',
     address: '45 Nile Corniche, Garden City, Cairo, Egypt',
-    imageName: 'location2.jpeg',
   ),
   AddressModel(
-    name: 'Office 2',
+    title: 'Office 2',
     address: '78 Ramses Road, Abbassia, Cairo, Egypt',
-    imageName: 'location3.jpeg',
   ),
 ];
 
@@ -138,14 +136,14 @@ class _ItemAddressState extends ConsumerState<ItemAddress> {
               leading: ClipRRect(
                 borderRadius: BorderRadius.circular(16.0),
                 child: Image.asset(
-                  getImagePath(widget.address.imageName),
+                  getImagePath('location3.jpeg'),
                   height: 100.0,
                   width: 90.0,
                   fit: BoxFit.fill,
                 ),
               ),
               title: Text(
-                widget.address.name,
+                widget.address.title,
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               subtitle: Text(widget.address.address),

@@ -3,11 +3,15 @@ import 'package:carz_app/config/dependecy/notifire_provider.dart';
 import 'package:carz_app/routing/routes.dart';
 import 'package:carz_app/ui/car_details/widgets/time_picker.dart';
 import 'package:carz_app/ui/core/ui/custom_elevated_button.dart';
+import 'package:carz_app/utils/util_funcs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 Future<dynamic> showModelBottomSheet(BuildContext context, WidgetRef ref) async {
+  
+  bool isTimePicked = false;
+  
   showModalBottomSheet(
     context: context,
     builder: (c) {
@@ -32,11 +36,17 @@ Future<dynamic> showModelBottomSheet(BuildContext context, WidgetRef ref) async 
               SizedBox(height: 8.0),
               Text('Select Time'),
               SizedBox(height: 8.0),
-              TimePicker(),
+              TimePicker(callback:(){
+              isTimePicked  =true;
+              }),
               SizedBox(height: 32.0),
               CustomElevatedButton(
                 onPressed: () {
+                  if(isTimePicked){
                   _onPressed(context);
+                  }else{
+                   showToast("You can not book now until you pick a date");
+                  }
                 },
                 text: 'Confirm',
               ),

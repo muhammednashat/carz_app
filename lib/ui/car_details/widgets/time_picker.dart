@@ -1,6 +1,3 @@
-import 'dart:ffi';
-
-import 'package:carz_app/config/dependecy/dependeces.dart';
 import 'package:carz_app/config/dependecy/notifire_provider.dart';
 import 'package:carz_app/data/models/time_model.dart';
 import 'package:carz_app/ui/core/theme/app_theme.dart';
@@ -8,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class TimePicker extends StatefulWidget {
-  const TimePicker({super.key});
-
+  const TimePicker({super.key, required this.callback});
+  final VoidCallback callback;
   @override
   State<TimePicker> createState() => _TimePickerState();
 }
@@ -47,6 +44,7 @@ class _TimePickerState extends State<TimePicker> {
 
   void _onItemTapped(int index) {
     setState(() {
+      widget.callback();
       selectedItem = index;
     });
   }
@@ -87,7 +85,9 @@ class _ItemTimeState extends ConsumerState<ItemTime> {
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: GestureDetector(
-        onTap: _onTapped,
+        onTap: () {
+          _onTapped();
+        },
         child: Container(
           padding: const EdgeInsets.all(8.0),
           child: Center(

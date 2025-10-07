@@ -9,6 +9,7 @@ import 'package:carz_app/ui/auth/log_in_screen.dart';
 import 'package:carz_app/ui/auth/sign_up_screen.dart';
 import 'package:carz_app/ui/bottom_navigation_bar.dart';
 import 'package:carz_app/ui/car_details/car_details.dart';
+import 'package:carz_app/ui/cars_brand/cars_brand.dart';
 import 'package:carz_app/ui/main/chooce_interest.dart';
 import 'package:carz_app/ui/payment_method/add_new_card_screen.dart';
 import 'package:carz_app/ui/payment_method/payment_method.dart';
@@ -40,6 +41,14 @@ final router = GoRouter(
      GoRoute(
       path: Routes.myBookingScreen,
       builder: (context, state) => MyBookingScreen(),
+    ),  
+    
+      GoRoute(
+      path: Routes.carsBrandScreen,
+      builder: (context, state) {
+        final brand = state.extra as String;
+        return CarsBrand(brandName: brand,);
+      },
     ),
     
       GoRoute(

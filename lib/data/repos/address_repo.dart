@@ -11,8 +11,10 @@ class AddressRepo {
     print(result.hasException);
   }
 
-  Future<void> getUserAddresses(String userId) async {
+  Future<List<AddressModel>> getUserAddresses(String userId) async {
     final result = await service.getUserAddresses(userId);
-    print(result.hasException);
+    final data = result.data?["addresses"] as List<dynamic>;
+    final adresses = data.map((e) => AddressModel.fromJson(e)).toList();
+    return adresses ;
   }
 }

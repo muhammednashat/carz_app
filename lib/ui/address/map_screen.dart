@@ -23,10 +23,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   bool _isLoading = true;
   @override
   void initState() {
-    // TODO: implement initState
-
     _getAddressName(lat, lon);
-
     super.initState();
   }
 

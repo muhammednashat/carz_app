@@ -28,21 +28,22 @@ class AddressService {
 
   Future<QueryResult> getUserAddresses(String userId) {
     final document = r'''
-query addresses($user_id: String){
- addresses(userId: $user_id){
- id
- title
- address
- }
+              query addresses($user_id: String){
+              addresses(userId: $user_id){
+              id
+              title
+              address
+              }
 
-}
+              }
 
-''';
+              ''';
 
     final options = QueryOptions(
       document: gql(document),
 
-      variables: {"userId": userId},
+      variables: {"user_id": userId},
+      fetchPolicy: FetchPolicy.networkOnly,
     );
 
     return graphQLClient.query(options);

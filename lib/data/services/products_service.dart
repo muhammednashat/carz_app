@@ -85,6 +85,7 @@ class ProductsService {
     final options = QueryOptions(
       document: gql(queryString),
       variables:<String, dynamic> {"brand": brand},
+      fetchPolicy: FetchPolicy.networkOnly
     );
 
     return graphQLClient.query(options);

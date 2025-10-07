@@ -14,4 +14,5 @@ class Routes {
   static const String appBottomTabBar  = '/appBottomTabBar';
   static const String mapScreen = '/mapScreen';
   static const String myBookingScreen = '/myBookingScreen';
+  static const String carsBrandScreen = '/carsBrandScreen';
 }

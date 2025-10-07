@@ -1,5 +1,6 @@
 import 'package:carz_app/config/dependecy/dependeces.dart';
 import 'package:carz_app/config/dependecy/notifire_provider.dart';
+import 'package:carz_app/config/dependecy/query_mutation_provider.dart';
 import 'package:carz_app/data/models/address_model.dart';
 import 'package:carz_app/routing/routes.dart';
 import 'package:carz_app/ui/core/theme/app_theme.dart';
@@ -9,20 +10,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-final addresses = [
-  AddressModel(
-    title: 'Home',
-    address: '12 Tahrir Street, Downtown, Cairo, Egypt',
-  ),
-  AddressModel(
-    title: 'Office 1',
-    address: '45 Nile Corniche, Garden City, Cairo, Egypt',
-  ),
-  AddressModel(
-    title: 'Office 2',
-    address: '78 Ramses Road, Abbassia, Cairo, Egypt',
-  ),
-];
+// final addresses = [
+//   AddressModel(
+//     title: 'Home',
+//     address: '12 Tahrir Street, Downtown, Cairo, Egypt',
+//   ),
+//   AddressModel(
+//     title: 'Office 1',
+//     address: '45 Nile Corniche, Garden City, Cairo, Egypt',
+//   ),
+//   AddressModel(
+//     title: 'Office 2',
+//     address: '78 Ramses Road, Abbassia, Cairo, Egypt',
+//   ),
+// ];
 
 class ConfirmAddressScreen extends ConsumerStatefulWidget {
   const ConfirmAddressScreen({super.key});
@@ -37,6 +38,7 @@ class _ConfirmAddressScreenState extends ConsumerState<ConfirmAddressScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final asyncValueAddresses = ref.watch(userAddressesProvider("31"));
     return Scaffold(
       appBar: AppBar(title: Text('Address')),
 
@@ -46,25 +48,29 @@ class _ConfirmAddressScreenState extends ConsumerState<ConfirmAddressScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: 32.0),
-            TextField(
-              decoration: InputDecoration(
-                hintText: 'Search',
-                prefixIcon: Icon(Icons.search),
-              ),
-            ),
+           
             SizedBox(height: 16.0),
+
             Expanded(
-              child: ListView.builder(
-                itemCount: 3,
-                itemBuilder: (context, index) {
-                  return ItemAddress(
-                    address: addresses[index],
-                    index: index,
-                    isSelected: _selectedItem == index,
-                    onTapp: _onAddressTapped,
-                  );
-                },
-              ),
+              child: switch (asyncValueAddresses) {
+                AsyncData(:final value) when value.isEmpty => 
+                  Center(child: Text("No addresses found")),
+                AsyncData(:final value) => ListView.builder(
+                  itemCount: value.length,
+                  itemBuilder: (context, index) {
+                    return ItemAddress(
+                      address: value[index],
+                      index: index,
+                      isSelected: _selectedItem == index,
+                      onTapp: _onAddressTapped,
+                    );
+                  },
+                ),
+                AsyncError(:final error) => Center(
+                  child: Text(error.toString()),
+                ),
+                _ => Center(child: CircularProgressIndicator()),
+              },
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,

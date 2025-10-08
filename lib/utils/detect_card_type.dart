@@ -11,3 +11,4 @@ CardType detectCardType(String input) {
   if (RegExp(r'^(35[0-9]{0,})$').hasMatch(s)) return CardType.jcb;
   return CardType.unknown;
 }
+

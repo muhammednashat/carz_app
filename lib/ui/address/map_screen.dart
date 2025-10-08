@@ -1,6 +1,9 @@
+import 'package:carz_app/config/dependecy/dependeces.dart';
 import 'package:carz_app/config/dependecy/reposotry_provider.dart';
+import 'package:carz_app/data/models/user_model.dart';
 import 'package:carz_app/ui/core/theme/app_theme.dart';
 import 'package:carz_app/ui/core/ui/custom_elevated_button.dart';
+import 'package:carz_app/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -182,7 +185,10 @@ class _MapScreenState extends ConsumerState<MapScreen> {
      _isLoading = true;
    });   
     final addressRepo = ref.read(addressRepoProvider);
-    await addressRepo.addAddress(title, address, "31");
+      final userBox = await ref.watch(userBoxProvider.future);
+      final user = userBox.get(Constants.user) as UserModel;
+      print(user.id);
+     await addressRepo.addAddress(title, address, user.id);
      setState(() {
      _isLoading = false;
      context.pop();

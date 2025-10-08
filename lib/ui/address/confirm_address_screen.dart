@@ -38,23 +38,31 @@ class _ConfirmAddressScreenState extends ConsumerState<ConfirmAddressScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final asyncValueAddresses = ref.watch(userAddressesProvider("31"));
+    final asyncValueAddresses = ref.watch(userAddressesProvider);
     return Scaffold(
-      appBar: AppBar(title: Text('Address')),
+      appBar: AppBar(title: Text('Pick Address')),
 
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 32.0),
-           
+            SizedBox(height: 16.0),
+            Text(
+              'Saved Addresses',
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+
             SizedBox(height: 16.0),
 
             Expanded(
               child: switch (asyncValueAddresses) {
-                AsyncData(:final value) when value.isEmpty => 
-                  Center(child: Text("No addresses found")),
+                AsyncData(:final value) when value.isEmpty => Center(
+                  child: Text(
+                    "No addresses found",
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                ),
                 AsyncData(:final value) => ListView.builder(
                   itemCount: value.length,
                   itemBuilder: (context, index) {
@@ -77,7 +85,9 @@ class _ConfirmAddressScreenState extends ConsumerState<ConfirmAddressScreen> {
               children: [
                 FloatingActionButton(
                   onPressed: () {
-                    context.push(Routes.mapScreen);
+                    context.push(Routes.mapScreen).then((value) {
+                      ref.invalidate(userAddressesProvider);
+                    });
                   },
                   child: Icon(Icons.add_location_alt_outlined),
                 ),
@@ -102,7 +112,11 @@ class _ConfirmAddressScreenState extends ConsumerState<ConfirmAddressScreen> {
   }
 
   _onPressed() {
-    context.push(Routes.paymentMethodScreen);
+    if (_selectedItem != -1) {
+      context.push(Routes.paymentMethodScreen);
+    } else {
+      showToast("Please select an address");
+    }
   }
 }
 

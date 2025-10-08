@@ -9,24 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-final cards = [
-  CardPaymentModel(
-    holderName: 'Mohammed Nashat',
-    numberCard: '1234 1452 8566 9854',
-    imageName: 'visa_card.png',
-  ),
-  CardPaymentModel(
-    holderName: 'Nashat Mohammed',
-    numberCard: '1234 1452 1234 1452',
-    imageName: 'master_card.png',
-  ),
-  CardPaymentModel(
-    holderName: 'Ahmed Jaber',
-    numberCard: '9854 1452 8566 9854',
-    imageName: 'master_card.png',
-  ),
-];
-
 class PaymentMethodScreen extends ConsumerStatefulWidget {
   const PaymentMethodScreen({super.key});
 
@@ -36,8 +18,6 @@ class PaymentMethodScreen extends ConsumerStatefulWidget {
 }
 
 class _PaymentMethodScreenState extends ConsumerState<PaymentMethodScreen> {
-
-
   int _selectedItem = -1;
   @override
   Widget build(BuildContext context) {
@@ -48,28 +28,31 @@ class _PaymentMethodScreenState extends ConsumerState<PaymentMethodScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 8.0),
+            SizedBox(height: 16.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Saved Cards', style:Theme.of(context).textTheme.titleLarge),
-                TextButton(onPressed: () {}, child: Text('Edit')),
+                Text(
+                  'Saved Cards',
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
               ],
             ),
-            SizedBox(height: 8.0),
-            Expanded(
-              child: ListView.builder(
-                itemCount: cards.length,
-                itemBuilder: (context, index) {
-                  return ItemPayment(
-                    card: cards[index],
-                    onTapp:_onPaymentTapped
-                    ,index:index,
-                     isSelected: _selectedItem == index);
-                },
-              ),
-            ),
+            SizedBox(height: 16.0),
 
+            // Expanded(
+            //   child: ListView.builder(
+            //     itemCount: cards.length,
+            //     itemBuilder: (context, index) {
+            //       return ItemPayment(
+            //         card: cards[index],
+            //         onTapp: _onPaymentTapped,
+            //         index: index,
+            //         isSelected: _selectedItem == index,
+            //       );
+            //     },
+            //   ),
+            // ),
             SizedBox(height: 16.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -91,11 +74,11 @@ class _PaymentMethodScreenState extends ConsumerState<PaymentMethodScreen> {
     );
   }
 
-  _onPaymentTapped(int index){
+  _onPaymentTapped(int index) {
     print("+onPaymentTapped");
-       setState((){
-        _selectedItem = index;
-       });
+    setState(() {
+      _selectedItem = index;
+    });
   }
 
   _onPressed() async {

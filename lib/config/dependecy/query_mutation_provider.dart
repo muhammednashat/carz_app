@@ -1,8 +1,11 @@
+import 'package:carz_app/config/dependecy/dependeces.dart';
 import 'package:carz_app/config/dependecy/reposotry_provider.dart';
 import 'package:carz_app/data/models/address_model.dart';
 import 'package:carz_app/data/models/booking_car_model.dart';
 import 'package:carz_app/data/models/brand_model.dart';
 import 'package:carz_app/data/models/car_model.dart';
+import 'package:carz_app/data/models/user_model.dart';
+import 'package:carz_app/utils/constants.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final trendingBrandsProvider = FutureProvider<List<BrandModel>>((ref) async {
@@ -38,10 +41,10 @@ final bookCarProvide = FutureProvider.autoDispose.family<void, BookingCarModel>(
   },
 );
 
-final userAddressesProvider =
-    FutureProvider.autoDispose.family<List<AddressModel>, String>((ref, userId) {
-final repo = ref.watch(addressRepoProvider);
-
-return repo.getUserAddresses(userId);
-
+final userAddressesProvider = FutureProvider((ref) async {
+      final repo = ref.watch(addressRepoProvider);
+      final userBox = await ref.watch(userBoxProvider.future);
+      final user = userBox.get(Constants.user) as UserModel;
+      print(user.id);
+      return repo.getUserAddresses(user.id);
     });

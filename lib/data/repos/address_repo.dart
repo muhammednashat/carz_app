@@ -15,6 +15,6 @@ class AddressRepo {
     final result = await service.getUserAddresses(userId);
     final data = result.data?["addresses"] as List<dynamic>;
     final adresses = data.map((e) => AddressModel.fromJson(e)).toList();
-    return adresses ;
+    return adresses;
   }
 }

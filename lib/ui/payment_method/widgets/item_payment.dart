@@ -23,21 +23,25 @@ class _ItemPaymentState extends ConsumerState<ItemPayment> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        print("onTapped");
-        ref.read(bookingModelProvider.notifier).setCardNumber(widget.card.numberCard);
-        widget.onTapp(widget.index);
+        // print("onTapped");
+        // ref.read(bookingModelProvider.notifier).setCardNumber(widget.card.numberCard);
+        // widget.onTapp(widget.index);
+      
+      
       },
       child: Card(
         color: (widget.isSelected) ? AppTheme.accent : Colors.amberAccent,
-        child: ListTile(
-          title: Text(widget.card.numberCard, style:Theme.of(context).textTheme.titleMedium),
-          subtitle: Text(widget.card.holderName),
-          trailing: Image.asset(
-            getIconPath(widget.card.imageName),
-            height: 35.0,
-            width: 35.0,
-          ),
-        ),
+       
+       
+        // child: ListTile(
+        //   title: Text(widget.card.numberCard, style:Theme.of(context).textTheme.titleMedium),
+        //   subtitle: Text(widget.card.holderName),
+        //   trailing: Image.asset(
+        //     getIconPath(widget.card.imageName),
+        //     height: 35.0,
+        //     width: 35.0,
+        //   ),
+        // ),
       ),
     );
   }

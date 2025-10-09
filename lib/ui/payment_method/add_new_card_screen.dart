@@ -2,11 +2,15 @@ import 'package:carz_app/config/dependecy/dependeces.dart';
 import 'package:carz_app/config/dependecy/reposotry_provider.dart';
 import 'package:carz_app/data/models/user_model.dart';
 import 'package:carz_app/ui/core/ui/custom_elevated_button.dart';
+import 'package:carz_app/ui/core/ui/loading_indecator.dart';
+import 'package:carz_app/ui/payment_method/util.dart';
 import 'package:carz_app/utils/constants.dart';
 import 'package:carz_app/utils/detect_card_type.dart';
 import 'package:carz_app/utils/util_funcs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class AddNewCardScreen extends ConsumerStatefulWidget {
   const AddNewCardScreen({super.key});
@@ -16,12 +20,15 @@ class AddNewCardScreen extends ConsumerStatefulWidget {
 }
 
 class _AddNewCardScreenState extends ConsumerState<AddNewCardScreen> {
+  final cardFormatter = MaskTextInputFormatter(mask: '#### #### #### ####');
   CardType _cardType = CardType.unknown;
   String _cardIcon = getIconPath("unknown_card.png");
   final _controllers = List.generate(5, (index) {
     return TextEditingController();
   });
 
+  final _formKey = GlobalKey<FormState>();
+  var _isLoading = false;
   final _focusList = List.generate(4, (index) {
     return FocusNode();
   });
@@ -30,160 +37,205 @@ class _AddNewCardScreenState extends ConsumerState<AddNewCardScreen> {
     return Scaffold(
       appBar: AppBar(title: Text('Add New Card')),
 
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 32.0),
-            Text("Card Number"),
-            SizedBox(height: 4.0),
-            TextFormField(
-              controller: _controllers[0],
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                prefixIcon: Image.asset(
-                  _cardIcon,
-                  height: 10.0,
-                  width: 10.0,
-                  fit: BoxFit.contain,
-                ),
+      body: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 32.0),
+                  Text("Card Number"),
+                  SizedBox(height: 4.0),
+                  TextFormField(
+                    validator: validationCardNumber,
+                    controller: _controllers[0],
+                    inputFormatters: [cardFormatter],
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      prefixIcon: Image.asset(
+                        _cardIcon,
+                        height: 10.0,
+                        width: 10.0,
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                    onChanged: (value) {
+                      _cardType = detectCardType(value);
+                      _updateCardIcon(_cardType);
+                      if (value.length == 19) {
+                        FocusScope.of(context).requestFocus(_focusList[0]);
+                      }
+                    },
+                  ),
+                  SizedBox(height: 24.0),
+                  Text("Card Holder Name"),
+                  SizedBox(height: 4.0),
+                  TextFormField(
+                    validator: validatorHolderCardName,
+                    controller: _controllers[1],
+                    focusNode: _focusList[0],
+                    decoration: InputDecoration(prefixIcon: Icon(Icons.person)),
+                  ),
+                  SizedBox(height: 24.0),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Expiry Month"),
+                            TextFormField(
+                              validator: validatorExpiryMonth,
+
+                              controller: _controllers[2],
+                              focusNode: _focusList[1],
+
+                              keyboardType: TextInputType.number,
+                              onChanged: (value) {
+                                if (value.length == 2) {
+                                  final month = int.tryParse(value);
+                                  if (month == null ||
+                                      month < 1 ||
+                                      month > 12) {
+                                    _controllers[2].clear();
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          "Enter a valid month (01–12)",
+                                        ),
+                                      ),
+                                    );
+                                    return;
+                                  }
+                                  FocusScope.of(
+                                    context,
+                                  ).requestFocus(_focusList[2]);
+                                }
+                              },
+                              decoration: InputDecoration(
+                                prefixIcon: Icon(Icons.date_range),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(width: 8.0),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Expiry Year"),
+                            TextFormField(
+                              validator: validatorExpiryYear,
+
+                              controller: _controllers[3],
+                              focusNode: _focusList[2],
+                              keyboardType: TextInputType.number,
+                              onChanged: (value) {
+                                if (value.length == 2) {
+                                  final year = int.tryParse(value);
+                                  final currentYear = int.parse(
+                                    DateTime.now().year.toString().substring(2),
+                                  );
+                                  if (year == null || year < currentYear) {
+                                    _controllers[3].clear();
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          "Enter a valid future year",
+                                        ),
+                                      ),
+                                    );
+                                    return;
+                                  }
+                                  FocusScope.of(
+                                    context,
+                                  ).requestFocus(_focusList[3]);
+                                }
+                              },
+                              decoration: InputDecoration(
+                                prefixIcon: Icon(Icons.calendar_today),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(width: 8.0),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("CVV"),
+                            TextFormField(
+                              validator: validatorCVV,
+
+                              controller: _controllers[4],
+                              focusNode: _focusList[3],
+                              onChanged: (value) {
+                                if (value.length == 3)
+                                  FocusScope.of(context).unfocus();
+                              },
+                              keyboardType: TextInputType.number,
+
+                              decoration: InputDecoration(
+                                prefixIcon: Icon(Icons.lock),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  SizedBox(height: 100.0),
+                  CustomElevatedButton(onPressed: isInputValid, text: 'Save'),
+                ],
               ),
-              onChanged: (value) {
-                _cardType = detectCardType(value);
-                _updateCardIcon(_cardType);
-                if (value.length == 2) {
-                  FocusScope.of(context).requestFocus(_focusList[0]);
-                }
-              },
             ),
-            SizedBox(height: 24.0),
-            Text("Card Holder Name"),
-            SizedBox(height: 4.0),
-            TextFormField(
-              controller: _controllers[1],
-              focusNode: _focusList[0],
-              decoration: InputDecoration(prefixIcon: Icon(Icons.person)),
-            ),
-            SizedBox(height: 24.0),
-            Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Expiry Month"),
-                      TextFormField(
-                        controller: _controllers[2],
-                        focusNode: _focusList[1],
+          ),
 
-                        keyboardType: TextInputType.number,
-                        onChanged: (value) {
-                          if (value.length == 2) {
-                            final month = int.tryParse(value);
-                            if (month == null || month < 1 || month > 12) {
-                              _controllers[2].clear();
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text("Enter a valid month (01–12)"),
-                                ),
-                              );
-                              return;
-                            }
-
-                            FocusScope.of(context).requestFocus(_focusList[2]);
-                          }
-                        },
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.date_range),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(width: 8.0),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Expiry Year"),
-                      TextFormField(
-                        controller: _controllers[3],
-                        focusNode: _focusList[2],
-                        keyboardType: TextInputType.number,
-                        onChanged: (value) {
-                          if (value.length == 2) {
-                            final year = int.tryParse(value);
-                            final currentYear = int.parse(
-                              DateTime.now().year.toString().substring(2),
-                            );
-
-                            if (year == null || year < currentYear) {
-                              _controllers[3].clear();
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text("Enter a valid future year"),
-                                ),
-                              );
-                              return;
-                            }
-                            FocusScope.of(context).requestFocus(_focusList[3]);
-                          }
-                        },
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.calendar_today),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(width: 8.0),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("CVV"),
-                      TextFormField(
-                        controller: _controllers[4],
-                        focusNode: _focusList[3],
-                        onChanged: (value) {
-                          if (value.length == 3)
-                            FocusScope.of(context).unfocus();
-                        },
-                        keyboardType: TextInputType.number,
-
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.lock),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-
-            SizedBox(height: 100.0),
-            CustomElevatedButton(onPressed: _onPressed, text: 'Save'),
-          ],
-        ),
+          if (_isLoading) LoadingIndicator(),
+        ],
       ),
     );
   }
 
-  _onPressed() async {
-    print("iam here");
+  void isInputValid() {
+    if (_formKey.currentState!.validate()) {
+      _addNewCard();
+    }
+  }
+
+  String? validationCardNumber(String? value) {
+    return validatorCardNumber(value, _cardType);
+  }
+
+  _addNewCard() async {
+    setState(() {
+      _isLoading = true;
+    });
+    final last4 = getLast4Figits(_controllers[0].text);
     final userBox = await ref.watch(userBoxProvider.future);
     final user = userBox.get(Constants.user) as UserModel;
-    ref
+    await ref
         .watch(paymentMethodsRepoProvider)
         .addPaymentMethod(
           user.id,
-          _controllers[0].text, //  4 digits
-          _controllers[1].text, // name
+          _controllers[1].text,
+          last4,
           _controllers[2].text, // m
           _controllers[3].text, // y
           _cardType.name,
         );
+
+    setState(() {
+      _isLoading = true;
+      showToast("A new card has been added");
+      context.pop();
+    });
   }
 
   void _updateCardIcon(CardType cardType) {

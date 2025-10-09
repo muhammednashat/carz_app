@@ -21,6 +21,7 @@ class _MyAppState extends State<MyApp> {
     final localization = FlutterLocalization.instance;
 
     return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
       routerConfig: router,
       supportedLocales: localization.supportedLocales,
       localizationsDelegates: localization.localizationsDelegates,

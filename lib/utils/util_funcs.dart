@@ -44,3 +44,5 @@ void showToast(String msg) {
     fontSize: 16.0,
   );
 }
+ getLast4Figits(String value) => 
+    value.substring(value.length - 4 );

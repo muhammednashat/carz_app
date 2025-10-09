@@ -5,15 +5,15 @@ class PaymentMethodsService {
 
   PaymentMethodsService(this.graphQLClient);
 
- Future<QueryResult> addPaymentMethod(
-  String userId,
-  String holderName,
-  String last4Digits,
-  String expiryMonth,
-  String expiryYear,
-  String cardType,
-) async {
-  const String mutation = r'''
+  Future<QueryResult> addPaymentMethod(
+    String userId,
+    String holderName,
+    String last4Digits,
+    String expiryMonth,
+    String expiryYear,
+    String cardType,
+  ) async {
+    const String mutation = r'''
     mutation AddNewPayment(
       $userId: String!,
       $holderName: String!,
@@ -35,24 +35,47 @@ class PaymentMethodsService {
     }
   ''';
 
-  final options = MutationOptions(
-    document: gql(mutation),
-    variables: {
-      'userId': userId,
-      'holderName': holderName,
-      'last4Digits': last4Digits,
-      'expiryMonth': expiryMonth,
-      'expiryYear': expiryYear,
-      'cardType': cardType,
-    },
-  );
+    final options = MutationOptions(
+      document: gql(mutation),
+      variables: {
+        'userId': userId,
+        'holderName': holderName,
+        'last4Digits': last4Digits,
+        'expiryMonth': expiryMonth,
+        'expiryYear': expiryYear,
+        'cardType': cardType,
+      },
+    );
 
-  final result = await graphQLClient.mutate(options);
-  return result;
+    final result = await graphQLClient.mutate(options);
+    return result;
+  }
+
+  Future<QueryResult> getUserPayments(String userId) {
+    final str = r'''
+    query userPayments($userId: String){
+          userPayments(userId: $userId){
+              id
+              cardHolderName
+              last4Digits
+              cardType
+               expiryMonth
+               expiryYear
+               isDefault
+               createdAt 
+          }
+    }
+''';
+
+    final options = QueryOptions(
+      document: gql(str),
+      variables: {"userId": userId},
+      fetchPolicy: FetchPolicy.networkOnly
+    );
+
+    return graphQLClient.query(options);
+
+
+
+  }
 }
-
-
-
-
-}
-

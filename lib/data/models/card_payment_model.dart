@@ -19,19 +19,20 @@ class CardPaymentModel {
     required this.expiryYear,
   });
 
-factory CardPaymentModel.fromJson(Map<String, dynamic> json) {
-  return CardPaymentModel(
-    id: json['id'] as String,
-    cardHolderName: json['cardHolderName'] as String,
-    last4Digits: json['last4Digits'] as String,
-    cardType: json['cardType'] as String,
-    createdAt: DateTime.parse(json['createdAt'] as String),
-    isDefault: json['isDefault'] as bool,
-    expiryMonth: json['expiryMonth'] as String,
-    expiryYear: json['expiryYear'] as String,
-  );
-}
-  Map<String , dynamic> toJson() => {
+  factory CardPaymentModel.fromJson(Map<String, dynamic> json) {
+    print(json);
+    return CardPaymentModel(
+      id: json['id'] as String,
+      cardHolderName: json['cardHolderName'] as String,
+      last4Digits: json['last4Digits'] as String,
+      cardType: json['cardType'] as String,
+      createdAt: DateTime.parse(json['createdAt'] as String),
+      isDefault: json['isDefault'] as bool,
+      expiryMonth: json['expiryMonth'] as String,
+      expiryYear: json['expiryYear'] as String,
+    );
+  }
+  Map<String, dynamic> toJson() => {
     "id": id,
     "cardHolderName": cardHolderName,
     "last4Digits": last4Digits,

@@ -1,55 +1,109 @@
-import 'package:carz_app/config/dependecy/dependeces.dart';
 import 'package:carz_app/config/dependecy/notifire_provider.dart';
 import 'package:carz_app/data/models/card_payment_model.dart';
 import 'package:carz_app/ui/core/theme/app_theme.dart';
 import 'package:carz_app/ui/payment_method/util.dart';
-import 'package:carz_app/utils/util_funcs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ItemPayment extends ConsumerStatefulWidget {
+class ItemPayment extends ConsumerWidget {
   const ItemPayment({
     super.key,
     required this.card,
-    required this.onTapp,
+    required this.onTap,
     required this.index,
     required this.isSelected,
   });
 
   final CardPaymentModel card;
-  final void Function(int) onTapp;
+  final void Function(int) onTap;
   final int index;
   final bool isSelected;
 
   @override
-  ConsumerState<ItemPayment> createState() => _ItemPaymentState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final iconImage = getCardIcon(card.cardType);
 
-class _ItemPaymentState extends ConsumerState<ItemPayment> {
-  @override
-  Widget build(BuildContext context) {
-    final iconImge = getCardIcon(widget.card.cardType);
-
-    return GestureDetector(
+    return InkWell(
+      borderRadius: BorderRadius.circular(16),
       onTap: () {
-        print("onTapped");
-        ref
-            .read(bookingModelProvider.notifier)
-            .setCardNumber(widget.card.last4Digits);
-        widget.onTapp(widget.index);
+        ref.read(bookingModelProvider.notifier).setCardNumber(card.last4Digits);
+        onTap(index);
       },
-      child: Card(
-        color: (widget.isSelected) ? AppTheme.accent : Colors.amberAccent,
-
-        child: ListTile(
-          title: Text(
-            widget.card.last4Digits,
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
-          subtitle: Text(widget.card.cardHolderName),
-          trailing: Image.asset(iconImge, height: 35.0, width: 35.0),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 250),
+        curve: Curves.easeInOut,
+        margin: const EdgeInsets.symmetric(vertical: 8),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: isSelected ? AppTheme.accent : Colors.grey.shade900,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            if (isSelected)
+              BoxShadow(
+                color: AppTheme.accent.withOpacity(0.4),
+                blurRadius: 12,
+                offset: const Offset(0, 6),
+              ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Image.asset(iconImage, height: 40, width: 40),
+            const SizedBox(height: 18),
+            Center(
+              child: Text(
+                "**** **** **** ${card.last4Digits}",
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 22,
+                  letterSpacing: 2,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            const SizedBox(height: 18),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _CardInfo(label: 'Holder name', value: card.cardHolderName),
+                _CardInfo(
+                  label: 'Expiry',
+                  value: "${card.expiryMonth}/${card.expiryYear}",
+                ),
+              ],
+            ),
+          ],
         ),
       ),
+    );
+  }
+}
+
+class _CardInfo extends StatelessWidget {
+  const _CardInfo({required this.label, required this.value});
+  final String label;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: const TextStyle(color: Colors.white70, fontSize: 14),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          value,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ],
     );
   }
 }

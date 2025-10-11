@@ -13,6 +13,7 @@ import 'package:carz_app/ui/cars_brand/cars_brand.dart';
 import 'package:carz_app/ui/main/chooce_interest.dart';
 import 'package:carz_app/ui/payment_method/add_new_card_screen.dart';
 import 'package:carz_app/ui/payment_method/payment_method.dart';
+import 'package:carz_app/ui/payment_method/success_booking.dart';
 import 'package:carz_app/ui/profile/my_booking.dart';
 import 'package:go_router/go_router.dart';
 
@@ -54,6 +55,10 @@ final router = GoRouter(
       GoRoute(
       path: Routes.mapScreen,
       builder: (context, state) => MapScreen(),
+    ),  
+        GoRoute(
+      path: Routes.successScreen,
+      builder: (context, state) => BookingSuccessScreen(),
     ),  
     GoRoute(
       path: Routes.carDetailsScreen,

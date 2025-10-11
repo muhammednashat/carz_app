@@ -55,7 +55,7 @@ class _PaymentMethodScreenState extends ConsumerState<PaymentMethodScreen> {
                       itemBuilder: (context, index) {
                         return ItemPayment(
                           card: value[index],
-                          onTapp: _onPaymentTapped,
+                          onTap: _onPaymentTapped,
                           index: index,
                           isSelected: _selectedItem == index,
                         );
@@ -119,6 +119,8 @@ class _PaymentMethodScreenState extends ConsumerState<PaymentMethodScreen> {
       print("not  sloading");
 
       _isLoading = false;
+
+      context.push(Routes.successScreen);
     });
   }
 }

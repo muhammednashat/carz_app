@@ -54,6 +54,7 @@ App Deployment & Versioning: structured pubspec.yaml setup
 
 Frontend: Flutter, Dart
 Backend: Python, Django, GraphQL
+> 👉 [View Backend Repository](https://github.com/muhammednashat/carz_server_python_django)
 Database: PostgreSQL (or your DB of choice)
 State Management: Riverpod
 Local Storage: Hive

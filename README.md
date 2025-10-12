@@ -1,7 +1,11 @@
 🚗 Carz App
 
 
-[![Watch the video](https://img.youtube.com/vi/YOUR_VIDEO_ID/0.jpg)]([https://youtu.be/YOUR_VIDEO_ID](https://www.youtube.com/shorts/cf1YTxSho-E))
+<p align="center">
+  <a href="https://www.youtube.com/watch?v=cf1YTxSho-E">
+    <img src="https://img.youtube.com/vi/cf1YTxSho-E/0.jpg" alt="Carz App Demo" />
+  </a>
+</p>
 
 Description:
 Carz App is a full-stack car rental application built with Flutter and powered by a custom Python Django backend. The app allows users to browse, book, and manage car rentals in real time.
